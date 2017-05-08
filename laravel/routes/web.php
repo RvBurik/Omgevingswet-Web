@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/home', function(){
+    return view('pages/home');
+});
+
+Route::get('/addproject', 'MapController@index');
