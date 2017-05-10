@@ -3,10 +3,12 @@
 @section('class', 'add-project')
 
 @section('content-name')
-Project aanvragen
+Yo!
 @endsection
 
 @section('content')
+
+
 <div class="row">
     <div class="col-lg-6">
         <div class="panel panel-default">
@@ -49,8 +51,15 @@ Project aanvragen
                     <div class="col-lg-6">
                         <form role="form">
                             <div class="form-group">
+
+
                                 <label></label>
-                                <div style="height: 500px; width: 500px;">{!! Mapper::render () !!}</div>
+                                <a class="skiplink" href="#map">Go to map</a>
+                                <div id="map" class="map" tabindex="0" style="height: 500px; width:500px;"></div>
+
+
+
+                                <!-- <div style="height: 500px; width: 500px;">{!! Mapper::render () !!}</div> -->
                             </div>
 
                         </form>
@@ -92,5 +101,8 @@ Project aanvragen
     </div>
     <!-- /.col-lg-12 -->
 </div>
+@endsection
 
+@section('scripts')
+    <script src="{{asset('js/createMap.js')}}"></script>
 @endsection

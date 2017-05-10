@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages/home');
 });
 
 Route::get('/home', function(){
@@ -20,3 +20,9 @@ Route::get('/home', function(){
 });
 
 Route::get('/addproject', 'MapController@index');
+
+Route::post('/addproject', 'MapController@coordinatesSaved');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

@@ -10,9 +10,17 @@ class MapController extends Controller
 {
 
     function index() {
-
-        Mapper::map(52.192471, 5.961831);
-
         return view('pages.addProject');
     }
+
+    function coordinatesSaved(Request $request)
+        {
+            $this->validate($request, [
+                'coordinates' => 'required|max:197|min:5'
+            ]);
+            $coordinatesXY = new Coordinates();
+            $coordinatesXY->coordinates = $request->get('coordinates');
+            $coordinatesXY->save();
+            return response($coordinatesXY);
+        }
 }
