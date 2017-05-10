@@ -6,7 +6,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+        <a class="navbar-brand" href="/index">Omgevingswet</a>
     </div>
     <!-- /.navbar-header -->
 
@@ -17,8 +17,8 @@
                 <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a href="login.html"><i class="fa fa-sign-in fa-fw"></i> Login</a>
-                <li><a href="register.html"><i class="fa fa-registered fa-fw"></i>Register</a>
+                <li><a href="/login"><i class="fa fa-sign-in fa-fw"></i> Login</a>
+                <li><a href="/register"><i class="fa fa-registered fa-fw"></i>Register</a>
                 </li>
             </ul>
             <!-- /.dropdown-user -->

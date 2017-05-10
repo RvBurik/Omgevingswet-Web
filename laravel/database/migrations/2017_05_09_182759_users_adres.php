@@ -13,11 +13,13 @@ class UsersAdres extends Migration
      */
     public function up()
     {
-        Schema::create('users_adres', function(Blueprint $table){
-            $table->integer('adresID');
-            $table->integer('gebruikersID');
-            $table->unique(array('adresID', 'gebruikersID'));
-        });
+        if (!Schema::hasTable('users_adres')) {
+            Schema::create('users_adres', function(Blueprint $table){
+                $table->integer('adresID');
+                $table->integer('gebruikersID');
+                $table->unique(array('adresID', 'gebruikersID'));
+            });
+        }
     }
 
     /**

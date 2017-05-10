@@ -18,18 +18,10 @@ Yo!
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <form role="form">
-                            <div class="form-group">
-                                <label></label>
-                                <input class="form-control" placeholder="Enter text">
-                            </div>
+                        <form role="form" action="{{ route('addProject') }}" method="get" id="newProjectForm">
                             <div class="form-group">
                                 <label>Omschrijving van het project</label>
-                                <textarea class="form-control" rows="5"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>File input</label>
-                                <input type="file">
+                                <input type="text" name="desc" id="desc" class="form-control"></input>
                             </div>
 
                             <button type="submit" class="btn btn-default">Submit Button</button>

@@ -12,17 +12,25 @@
 */
 
 Route::get('/', function () {
-    return view('pages/home');
+    return view('pages.home');
 });
 
 Route::get('/home', function(){
-    return view('pages/home');
+    return view('pages.home');
 });
 
-Route::get('/addproject', 'MapController@index');
+Route::get('/index', function(){
+    return view('pages.home');
+});
 
-Route::post('/addproject', 'MapController@coordinatesSaved');
+Route::group(['prefix' => 'project'], function () {
+    Route::get('/new', 'MapController@index');
+
+    Route::get('/add', 'ProjectController@save')->name('addProject');
+
+    Route::get('/delete/{id}', 'ProjectController@save');
+
+    Route::get('/', 'ProjectController@index');
+});
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
