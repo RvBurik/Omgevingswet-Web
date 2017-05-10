@@ -16,7 +16,7 @@
                         @foreach($projects as $project)
                             <hr>
                             <div>
-                                <h3>{{$project->omschrijving}}</h3>
+                                <h3>{{$project->omschrijving}}<a href="/project/delete/{{$project->projectID}}"><i class="fa fa-times" aria-hidden="true"></i></a></h3>
                                 <p>{{$project->status}}</p>
                             </div>
                         @endforeach

@@ -27,4 +27,10 @@ class ProjectController extends Controller
         $project->save();
         return redirect()->back();
     }
+
+    function delete ($id) {
+        $project = Project::where('projectID', $id)->firstOrFail();
+        $project->delete();
+        return redirect('/project');
+    }
 }

@@ -28,7 +28,7 @@ Route::group(['prefix' => 'project'], function () {
 
     Route::get('/add', 'ProjectController@save')->name('addProject');
 
-    Route::get('/delete/{id}', 'ProjectController@save');
+    Route::get('/delete/{id}', 'ProjectController@delete');
 
     Route::get('/', 'ProjectController@index');
 });
