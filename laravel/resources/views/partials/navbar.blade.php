@@ -17,9 +17,25 @@
                 <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a href="/login"><i class="fa fa-sign-in fa-fw"></i> Login</a>
-                <li><a href="/register"><i class="fa fa-registered fa-fw"></i>Register</a>
-                </li>
+                @if (Auth::guest())
+                    <li><a href="/login"><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
+                    <li><a href="/register"></i>Register</a></li>
+                @else
+                    <li class="dropdown">
+                        <li><a href="/profile">{{ Auth::user()->voornaam }}</a></li>
+                        <li>
+                            <a href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    </li>
+                @endif
             </ul>
             <!-- /.dropdown-user -->
         </li>

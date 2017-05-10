@@ -23,7 +23,7 @@ Route::get('/index', function(){
     return view('pages.home');
 });
 
-Route::group(['prefix' => 'project'], function () {
+Route::group(['prefix' => 'project', 'middleware' => 'auth'], function () {
     Route::get('/new', 'MapController@index');
 
     Route::get('/add', 'ProjectController@save')->name('addProject');

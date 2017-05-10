@@ -14,6 +14,7 @@ class ProjectController extends Controller
     function index() {
         $projects = Project::where('gebruikerID', Auth::user()->gebruikerID)->paginate(5);
         return view('pages.projects')->with(compact('projects'));
+
     }
 
     function save (Request $request) {
@@ -25,12 +26,19 @@ class ProjectController extends Controller
         $project->locatieID = 1;
         $project->omschrijving = $request->input('desc');
         $project->save();
+
+        session()->flash('message', 'Project succesvol aangevraagd');
+        session()->flash('alert-class', 'alert-success');
         return redirect()->back();
+
     }
 
     function delete ($id) {
         $project = Project::where('projectID', $id)->firstOrFail();
         $project->delete();
+
+        session()->flash('message', 'Project succesvol verwijderd');
+        session()->flash('alert-class', 'alert-success');
         return redirect('/project');
     }
 }
