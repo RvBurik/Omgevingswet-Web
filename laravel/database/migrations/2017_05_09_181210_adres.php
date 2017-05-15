@@ -13,13 +13,15 @@ class Adres extends Migration
      */
     public function up()
     {
-        Schema::create('adres', function (Blueprint $table){
-            $table->increments('adresID');
-            $table->string('postcode');
-            $table->integer('huisnummer');
-            $table->string('toevoeging')->nullable();
-            $table->unique(array('postcode', 'huisnummer', 'toevoeging'));
-        });
+        if (!Schema::hasTable('adres')) {
+            Schema::create('adres', function (Blueprint $table){
+                $table->increments('adresID');
+                $table->string('postcode');
+                $table->integer('huisnummer');
+                $table->string('toevoeging')->nullable();
+                $table->unique(array('postcode', 'huisnummer', 'toevoeging'));
+            });
+        }
     }
 
     /**

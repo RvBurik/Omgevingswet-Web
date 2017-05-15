@@ -14,13 +14,13 @@ class MapController extends Controller
     }
 
     function coordinatesSaved(Request $request)
-        {
-            $this->validate($request, [
-                'coordinates' => 'required|max:197|min:5'
-            ]);
-            $coordinatesXY = new Coordinates();
-            $coordinatesXY->coordinates = $request->get('coordinates');
-            $coordinatesXY->save();
-            return response($coordinatesXY);
-        }
+    {
+        $this->validate($request, [
+            'coordinates' => 'required|max:197|min:5'
+        ]);
+        $coordinatesXY = new Coordinates();
+        $coordinatesXY->coordinates = $request->get('coordinates');
+        $coordinatesXY->save();
+        return response($coordinatesXY);
+    }
 }

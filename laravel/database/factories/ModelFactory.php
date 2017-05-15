@@ -16,9 +16,20 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
-        'name' => $faker->name,
+        'voornaam' => $faker->firstName,
+        'achternaam' => $faker->lastName,
+        'geboortedatum' => $faker->date,
+        'geslacht' => $faker->randomLetter,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'password' => $password ?: $password = bcrypt('tmp123')
+    ];
+});
+
+$factory->define(App\Project::class, function (Faker\Generator $faker) {
+    return [
+        'gebruikerID' => 1,
+        'omschrijving' => $faker->sentence,
+        'locatieID' => 1,
+        'status' => $faker->sentence(3, true)
     ];
 });
