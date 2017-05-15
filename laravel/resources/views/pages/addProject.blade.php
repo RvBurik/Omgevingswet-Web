@@ -3,7 +3,7 @@
 @section('class', 'add-project')
 
 @section('content-name')
-Yo!
+Project Aanvragen
 @endsection
 
 @section('content')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use DB;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -49,7 +50,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'voornaam' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'mailadres' => 'required|string|email|max:255|unique:gebruiker',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -62,15 +63,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'voornaam' => $data['voornaam'],
-            'tussenvoegsel' => $data['tussenvoegsel'],
-            'achternaam' => $data['achternaam'],
-            'geboortedatum' => $data['geboortedatum'],
-            'geslacht' => $data['geslacht'],
-            'email' => $data['email'],
-            'bedrijfsID' => $data['bedrijfsID'],
-            'password' => bcrypt($data['password']),
-        ]);
+         DB::select('exec spInsertUser ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',array($data['gebruikersnaam'],
+         $data['voornaam'], $data['tussenvoegsel'], $data['achternaam'], $data['geboortedatum'], $data['geslacht'], $data['mailadres'], bcrypt($data['password']), $data['telefoon'], $data['postcode'], $data['huisnummer'], $data['toevoeging']));
+
+        //DB::select('exec spTest ?', array($data['voornaam']));
+        // return User::create([
+        //     'voornaam' => $data['voornaam'],
+        //     'tussenvoegsel' => $data['tussenvoegsel'],
+        //     'achternaam' => $data['achternaam'],
+        //     'geboortedatum' => $data['geboortedatum'],
+        //     'geslacht' => $data['geslacht'],
+        //     'email' => $data['email'],
+        //     'bedrijfsID' => $data['bedrijfsID'],
+        //     'password' => bcrypt($data['password']),
+        // ]);
     }
 }

@@ -10,6 +10,20 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
+                        <div class="form-group{{ $errors->has('gebruikersnaam') ? ' has-error' : '' }}">
+                            <label for="voornaam" class="col-md-4 control-label">Gebruikersnaam</label>
+
+                            <div class="col-md-6">
+                                <input id="gebruikersnaam" type="text" class="form-control" name="gebruikersnaam" value="{{ old('gebruikersnaam') }}" required autofocus>
+
+                                @if ($errors->has('gebruikersnaam'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('gebruikersnaam') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('voornaam') ? ' has-error' : '' }}">
                             <label for="voornaam" class="col-md-4 control-label">Voornaam</label>
 
@@ -25,12 +39,12 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('tussenvoegsel') ? ' has-error' : '' }}">
-                            <label for="tussenvoegsel" class="col-md-4 control-label">tussenvoegsel</label>
+                            <label for="tussenvoegsel" class="col-md-4 control-label">Tussenvoegsel</label>
 
                             <div class="col-md-6">
                                 <input id="tussenvoegsel" type="text" class="form-control" name="tussenvoegsel" value="{{ old('tussenvoegsel') }}" autofocus>
 
-                                @if ($errors->has('voornaam'))
+                                @if ($errors->has('tussenvoegsel'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('tussenvoegsel') }}</strong>
                                     </span>
@@ -39,7 +53,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('achternaam') ? ' has-error' : '' }}">
-                            <label for="achternaam" class="col-md-4 control-label">achternaam</label>
+                            <label for="achternaam" class="col-md-4 control-label">Achternaam</label>
 
                             <div class="col-md-6">
                                 <input id="achternaam" type="text" class="form-control" name="achternaam" value="{{ old('achternaam') }}" required autofocus>
@@ -53,7 +67,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('achternaam') ? ' has-error' : '' }}">
-                            <label for="geboortedatum" class="col-md-4 control-label">geboortedatum</label>
+                            <label for="geboortedatum" class="col-md-4 control-label">Geboortedatum</label>
 
                             <div class="col-md-6">
                                 <input id="geboortedatum" type="date" class="form-control" name="geboortedatum" value="{{ old('geboortedatum') }}" required>
@@ -67,7 +81,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('geslacht') ? ' has-error' : '' }}">
-                            <label for="geslacht" class="col-md-4 control-label">geslacht</label>
+                            <label for="geslacht" class="col-md-4 control-label">Geslacht</label>
 
                             <div class="col-md-6">
                                 <input id="geslacht" type="text" class="form-control" name="geslacht" value="{{ old('geslacht') }}" required>
@@ -80,34 +94,19 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail</label>
+                        <div class="form-group{{ $errors->has('MAILADRES') ? ' has-error' : '' }}">
+                            <label for="MAILADRES" class="col-md-4 control-label">E-Mail</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                <input id="MAILADRES" type="email" class="form-control" name="MAILADRES" value="{{ old('MAILADRES') }}" required>
 
-                                @if ($errors->has('email'))
+                                @if ($errors->has('MAILADRES'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('MAILADRES') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
-
-                        <div class="form-group{{ $errors->has('bedrijfsID') ? ' has-error' : '' }}">
-                            <label for="bedrijfsID" class="col-md-4 control-label">bedrijfsID</label>
-
-                            <div class="col-md-6">
-                                <input id="bedrijfsID" type="text" class="form-control" name="bedrijfsID">
-
-                                @if ($errors->has('bedrijfsID'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('bedrijfsID') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
@@ -132,7 +131,19 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('telefoon') ? ' has-error' : '' }}">
+                            <label for="telefoon" class="col-md-4 control-label">Telefoonnummer</label>
 
+                            <div class="col-md-6">
+                                <input id="telefoon" type="text" class="form-control" name="telefoon" required>
+
+                                @if ($errors->has('telefoon'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('telefoon') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group{{ $errors->has('postcode') ? ' has-error' : '' }}">
                             <label for="postcode" class="col-md-4 control-label">Postcode</label>
