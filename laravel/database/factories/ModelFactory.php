@@ -16,6 +16,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
+        'gebruikersnaam' => $faker->username,
         'voornaam' => $faker->firstName,
         'achternaam' => $faker->lastName,
         'geboortedatum' => $faker->date,

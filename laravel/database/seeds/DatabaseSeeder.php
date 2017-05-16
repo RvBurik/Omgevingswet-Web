@@ -26,12 +26,13 @@ class UserSeeder extends Seeder
     public function run()
     {
         \App\User::create([
+            'gebruikersnaam' => 'RvBurik',
             'voornaam' => 'Ricardo',
             'tussenvoegsel' => 'van',
             'achternaam' => 'Burik',
             'geboortedatum' => '1996\08\01',
             'geslacht' => 'M',
-            'email' => 'rvbukir@hotmail.com',
+            'email' => 'rvburik@hotmail.com',
             'password' => bcrypt('tmp123'),
         ]);
 

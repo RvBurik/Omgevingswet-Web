@@ -61,21 +61,22 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
+    protected function addUser(array $data)
     {
-         DB::select('exec spInsertUser ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',array($data['gebruikersnaam'],
-         $data['voornaam'], $data['tussenvoegsel'], $data['achternaam'], $data['geboortedatum'], $data['geslacht'], $data['mailadres'], bcrypt($data['password']), $data['telefoon'], $data['postcode'], $data['huisnummer'], $data['toevoeging']));
+        //  DB::select('exec spInsertUser ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',array($data['gebruikersnaam'],
+        //  $data['voornaam'], $data['tussenvoegsel'], $data['achternaam'], $data['geboortedatum'], $data['geslacht'], $data['mailadres'], bcrypt($data['password']), $data['telefoon'], $data['postcode'], $data['huisnummer'], $data['toevoeging']));
 
         //DB::select('exec spTest ?', array($data['voornaam']));
-        // return User::create([
-        //     'voornaam' => $data['voornaam'],
-        //     'tussenvoegsel' => $data['tussenvoegsel'],
-        //     'achternaam' => $data['achternaam'],
-        //     'geboortedatum' => $data['geboortedatum'],
-        //     'geslacht' => $data['geslacht'],
-        //     'email' => $data['email'],
-        //     'bedrijfsID' => $data['bedrijfsID'],
-        //     'password' => bcrypt($data['password']),
-        // ]);
+        return User::create([
+            'gebruikersnaam' => $data['gebruikersnaam'],
+            'voornaam' => $data['voornaam'],
+            'tussenvoegsel' => $data['tussenvoegsel'],
+            'achternaam' => $data['achternaam'],
+            'geboortedatum' => $data['geboortedatum'],
+            'geslacht' => $data['geslacht'],
+            'email' => $data['email'],
+            'bedrijfsID' => $data['bedrijfsID'],
+            'password' => bcrypt($data['password']),
+        ]);
     }
 }

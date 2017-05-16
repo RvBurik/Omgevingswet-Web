@@ -12,7 +12,7 @@ class ProjectController extends Controller
 {
 
     function index() {
-        $projects = Project::where('gebruikerID', Auth::user()->gebruikerID)->paginate(5);
+        $projects = Project::where('gebruikerID', Auth::user()->id)->paginate(5);
         return view('pages.projects')->with(compact('projects'));
 
     }
