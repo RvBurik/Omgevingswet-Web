@@ -21,8 +21,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'achternaam' => $faker->lastName,
         'geboortedatum' => $faker->date,
         'geslacht' => $faker->randomLetter,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('tmp123')
+        'MAILADRES' => $faker->unique()->safeEmail,
+        'WACHTWOORD' => $password ?: $password = bcrypt('tmp123')
     ];
 });
 

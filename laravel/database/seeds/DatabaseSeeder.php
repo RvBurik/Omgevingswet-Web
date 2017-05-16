@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UserSeeder::class);
-        $this->call(ProjectSeeder::class);
+        //$this->call(ProjectSeeder::class);
     }
 }
 
@@ -30,10 +30,10 @@ class UserSeeder extends Seeder
             'voornaam' => 'Ricardo',
             'tussenvoegsel' => 'van',
             'achternaam' => 'Burik',
-            'geboortedatum' => '1996\08\01',
+            'geboortedatum' => '1996-08-01',
             'geslacht' => 'M',
-            'email' => 'rvburik@hotmail.com',
-            'password' => bcrypt('tmp123'),
+            'MAILADRES' => 'rvburik@hotmail.com',
+            'WACHTWOORD' => bcrypt('tmp123'),
         ]);
 
         factory(App\User::class, 3)->create();

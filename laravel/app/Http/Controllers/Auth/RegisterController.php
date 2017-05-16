@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use DB;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -28,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -50,7 +51,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'voornaam' => 'required|string|max:255',
-            'mailadres' => 'required|string|email|max:255|unique:gebruiker',
+            // 'mailadres' => 'required|string|email|max:255|unique:gebruiker',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -61,22 +62,10 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function addUser(array $data)
+    protected function addUser(Request $data)
     {
-        //  DB::select('exec spInsertUser ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',array($data['gebruikersnaam'],
-        //  $data['voornaam'], $data['tussenvoegsel'], $data['achternaam'], $data['geboortedatum'], $data['geslacht'], $data['mailadres'], bcrypt($data['password']), $data['telefoon'], $data['postcode'], $data['huisnummer'], $data['toevoeging']));
+         DB::select('exec spInsertUser ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',array($data['GEBRUIKERSNAAM'],
+         $data['VOORNAAM'], $data['TUSSENVOEGSEL'], $data['ACHTERNAAM'], $data['GEBOORTEDATUM'], $data['GESLACHT'], $data['MAILADRES'], bcrypt($data['WACHTWOORD']), $data['TELEFOON'], $data['POSTCODE'], $data['HUISNUMMER'], $data['TOEVOEGING']));
 
-        //DB::select('exec spTest ?', array($data['voornaam']));
-        return User::create([
-            'gebruikersnaam' => $data['gebruikersnaam'],
-            'voornaam' => $data['voornaam'],
-            'tussenvoegsel' => $data['tussenvoegsel'],
-            'achternaam' => $data['achternaam'],
-            'geboortedatum' => $data['geboortedatum'],
-            'geslacht' => $data['geslacht'],
-            'email' => $data['email'],
-            'bedrijfsID' => $data['bedrijfsID'],
-            'password' => bcrypt($data['password']),
-        ]);
     }
 }

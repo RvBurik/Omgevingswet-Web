@@ -35,11 +35,7 @@ class LoginController extends Controller
 
     public function username()
     {
-            return 'email';
+            return 'MAILADRES';
     }
 
-
-    public function getUsername(){
-        return Auth::user()->gebruikersnaam;
-    }
 }
