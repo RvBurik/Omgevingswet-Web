@@ -12,7 +12,14 @@ class ProjectController extends Controller
 {
 
     function index() {
-        $projects = Project::where('gebruikerID', Auth::user()->gebruikerID)->paginate(5);
+        //$projects = Project::where('gebruikerID', Auth::user()->gebruikerID)->paginate(5);
+        //$projects = Project::where('GEBRUIKERSNAAM', 'Michiel')->paginate(5);
+        //$projects = Project::all();
+        //$projects = Project::where('PROJECTID', 1)->paginate(5);
+        $projects = Project::first()->paginate(5);
+        echo $projects[0]->GEBRUIKERSNAAM;
+        
+        //die();
         return view('pages.projects')->with(compact('projects'));
 
     }
@@ -22,9 +29,9 @@ class ProjectController extends Controller
             'desc' => 'required|max:255|min:5'
         ]);
         $project = new Project();
-        $project->gebruikerID = Auth::user()->gebruikerID;
-        $project->locatieID = 1;
-        $project->omschrijving = $request->input('desc');
+        $project->GEBRUIKERID = Auth::user()->GEBRUIKERID;
+        $project->LOCATIE = 1;
+        $project->OMSCHRIJVING = $request->input('desc');
         $project->save();
 
         session()->flash('message', 'Project succesvol aangevraagd');
@@ -34,7 +41,7 @@ class ProjectController extends Controller
     }
 
     function delete ($id) {
-        $project = Project::where('projectID', $id)->firstOrFail();
+        $project = Project::where('PROJECTID', $id)->firstOrFail();
         $project->delete();
 
         session()->flash('message', 'Project succesvol verwijderd');

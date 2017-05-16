@@ -8,8 +8,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'users';
-    protected $primaryKey = 'gebruikerID';
-    protected $fillable = ['voornaam', 'tussenvoegsel', 'achternaam', 'geboortedatum', 'geslacht', 'email', 'bedrijfsID', 'password'];
-    protected $hidden = ['password', 'remember_token'];
+    protected $table = 'gebruiker';
+    protected $primaryKey = 'gebruikersnaam';
+    protected $fillable = ['wachtwoord', 'voornaam', 'tussenvoegsel', 'achternaam', 'geboortedatum', 'geslacht', 'mailadres'];
+    protected $hidden = ['wachtwoord', 'remember_token'];
 }

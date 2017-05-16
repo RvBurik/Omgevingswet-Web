@@ -14,13 +14,14 @@
                     <h2>View all your projects</h2>
                     <div class="text-center">
                         @foreach($projects as $project)
+                            <p>{{$project->KVKNUMMER}}</p>
                             <hr>
                             <div>
-                                <h3>{{$project->omschrijving}}<a href="/project/delete/{{$project->projectID}}"><i class="fa fa-times" aria-hidden="true"></i></a></h3>
-                                <p>{{$project->status}}</p>
+                                <h3>{{$project->OMSCHRIJVING}}<a href="/project/delete/{{$project->PROJECTID}}"><i class="fa fa-times" aria-hidden="true"></i></a></h3>
+                                <p>{{$project->STATUS}}</p>
                             </div>
                         @endforeach
-                        {{ $projects->links() }}
+                        
                     </div>
                 @else
                     <h2>You don't have any projects yet</h2>
