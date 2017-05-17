@@ -16,6 +16,14 @@ class Project extends Model
 		return $this->hasMany('App\Permit', 'PROJECTID');
 	}
 
+    public function user() {
+        return $this->belongsTo('App\User', 'GEBRUIKERSNAAM');
+    }
+
+    public function company() {
+        return $this->belongsTo('App\Company', 'KVKNUMMER');
+    }
+
     public function isVisibleToUser(User $user) {
         return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
     }
