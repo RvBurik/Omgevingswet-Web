@@ -12,5 +12,33 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.home');
 });
+
+Route::get('/home', function(){
+    return view('pages.home');
+});
+
+Route::get('/index', function(){
+    return view('pages.home');
+});
+
+Route::group(['prefix' => 'project'/*, 'middleware' => 'auth'*/], function () {
+    Route::get('/new', 'MapController@index');
+
+    Route::get('/add', 'ProjectController@save')->name('addProject');
+
+    Route::get('/delete/{id}', 'ProjectController@delete');
+
+    Route::get('/', 'ProjectController@index');
+    
+    Route::get('/{id}', 'ProjectController@view');
+});
+
+Route::get('/permits', 'PermitsController@index');
+
+Auth::routes();
+
+Route::post('register', 'Auth\RegisterController@addUser');
+
+Route::get('/', 'HomeController@index')->name('home');

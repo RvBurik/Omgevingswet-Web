@@ -13,14 +13,33 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
+<<<<<<< HEAD
+        if (!Schema::hasTable('users')) {
+            Schema::create('users', function (Blueprint $table) {
+=======
+        if (!Schema::hasTable('GEBRUIKER')) {
+            Schema::create('GEBRUIKER', function (Blueprint $table) {
+                // $table->increments('id');
+>>>>>>> origin/view-projects
+                $table->string('gebruikersnaam');
+                $table->string('voornaam');
+                $table->string('tussenvoegsel')->nullable();
+                $table->string('achternaam');
+                $table->date('geboortedatum');
+                $table->char('geslacht', 1);
+<<<<<<< HEAD
+                $table->string('mailadres')->unique();
+                $table->string('wachtwoord');
+                $table->rememberToken();
+                $table->timestamps();
+=======
+                $table->string('MAILADRES')->unique();
+                $table->string('WACHTWOORD');
+                // $table->rememberToken();
+                // $table->timestamps();
+>>>>>>> origin/view-projects
+            });
+        }
     }
 
     /**
@@ -30,6 +49,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('GEBRUIKER');
     }
 }
