@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>CGI Omgevingswet</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
     <!-- MetisMenu CSS -->

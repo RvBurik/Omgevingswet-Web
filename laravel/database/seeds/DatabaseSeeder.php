@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UserSeeder::class);
-        $this->call(ProjectSeeder::class);
+        //$this->call(ProjectSeeder::class);
     }
 }
 
@@ -26,14 +26,14 @@ class UserSeeder extends Seeder
     public function run()
     {
         \App\User::create([
-			'gebruikersnaam' => 'rvbukir',
+            'gebruikersnaam' => 'RvBurik',
             'voornaam' => 'Ricardo',
             'tussenvoegsel' => 'van',
             'achternaam' => 'Burik',
             'geboortedatum' => '1996-08-01',
             'geslacht' => 'M',
-            'mailadres' => 'rvbukir@hotmail.com',
-            'wachtwoord' => bcrypt('tmp123'),
+            'MAILADRES' => 'rvburik@hotmail.com',
+            'WACHTWOORD' => bcrypt('tmp123'),
         ]);
 
 		\App\User::create([

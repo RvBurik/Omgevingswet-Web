@@ -18,7 +18,6 @@ class ProjectController extends Controller
         //$projects = Project::where('GEBRUIKERSNAAM', 'Michiel')->paginate(5);
         $projects = Project::all();
         
-
         return view('pages.projects')->with(compact('projects'));
 
     }
@@ -33,7 +32,7 @@ class ProjectController extends Controller
             'desc' => 'required|max:255|min:5'
         ]);
         $project = new Project();
-        $project->GEBRUIKERID = Auth::user()->GEBRUIKERID;
+        $project->GEBRUIKERSNAAM = Auth::user()->GEBRUIKERSNAAM;
         $project->LOCATIE = 1;
         $project->OMSCHRIJVING = $request->input('desc');
         $project->save();

@@ -38,3 +38,7 @@ Route::group(['prefix' => 'project'/*, 'middleware' => 'auth'*/], function () {
 Route::get('/permits', 'PermitsController@index');
 
 Auth::routes();
+
+Route::post('register', 'Auth\RegisterController@addUser');
+
+Route::get('/', 'HomeController@index')->name('home');
