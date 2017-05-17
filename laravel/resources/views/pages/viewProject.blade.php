@@ -5,7 +5,10 @@
 @section('content')
 <div class="row">
     <div class="col-lg-12">
-        @if (!empty($project))
+        @if (Auth::user() == null)
+            <h3>U moet ingelogd zijn om projecten te kunnen bekijken.</h3>
+            <p>Klik <a href="/login">hier</a> om in te loggen.</p>
+        @elseif (!empty($project) && $project->isVisibleToUser(Auth::user()))
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2>Projectinformatie</h2>
@@ -42,7 +45,8 @@
                 </div>
             </div>
         @else
-            <h2>Dit project bestaat niet. Klik <a href="/project">hier</a> om uw projecten te bekijken.
+            <h3>Dit project bestaat niet of u heeft mogelijk geen toestemming om dit project te bekijken.</h3>
+            <p>Klik <a href="/project">hier</a> om uw projecten te bekijken.</p>
         @endif
     </div>
 </div>

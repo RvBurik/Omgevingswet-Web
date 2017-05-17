@@ -13,11 +13,7 @@ class ProjectController extends Controller
 {
 
     function index() {
-        //TODO: Show only own projects.
-        //$projects = Project::where('gebruikerID', Auth::user()->gebruikerID)->paginate(5);
-        //$projects = Project::where('GEBRUIKERSNAAM', 'Michiel')->paginate(5);
-        $projects = Project::all();
-        
+        $projects = Project::where('GEBRUIKERSNAAM', Auth::user()->GEBRUIKERSNAAM)->paginate(5);
         return view('pages.projects')->with(compact('projects'));
 
     }
@@ -45,10 +41,14 @@ class ProjectController extends Controller
 
     function delete ($id) {
         $project = Project::where('PROJECTID', $id)->firstOrFail();
-        $project->delete();
 
-        session()->flash('message', 'Project succesvol verwijderd');
-        session()->flash('alert-class', 'alert-success');
-        return redirect('/project');
+        if (Auth::user() != null && $project->mayUserRemove(Auth::user())) {
+            $project->delete();
+            session()->flash('message', 'Project succesvol verwijderd');
+            session()->flash('alert-class', 'alert-success');
+            return redirect('/project');
+        }
+        else
+            return redirect('/project/' . $id);
     }
 }
