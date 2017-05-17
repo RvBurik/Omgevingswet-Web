@@ -14,11 +14,9 @@
                     <h2>View all your projects</h2>
                     <div class="text-center">
                         @foreach($projects as $project)
-                            <p>{{$project->KVKNUMMER}}</p>
                             <hr>
                             <div>
-                                <h3>{{$project->OMSCHRIJVING}}<a href="/project/delete/{{$project->PROJECTID}}"><i class="fa fa-times" aria-hidden="true"></i></a></h3>
-                                <p>{{$project->STATUS}}</p>
+                                <h3><a href="/project/{{$project->PROJECTID}}">Project #{{$project->PROJECTID}} - {{$project->WERKZAAMHEID}}</a> <a href="/project/delete/{{$project->PROJECTID}}"><i class="fa fa-times" aria-hidden="true"></i></a></h3>
                             </div>
                         @endforeach
                         

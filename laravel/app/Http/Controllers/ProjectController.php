@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Permit;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -12,16 +13,19 @@ class ProjectController extends Controller
 {
 
     function index() {
+        //TODO: Show only own projects.
         //$projects = Project::where('gebruikerID', Auth::user()->gebruikerID)->paginate(5);
         //$projects = Project::where('GEBRUIKERSNAAM', 'Michiel')->paginate(5);
-        //$projects = Project::all();
-        //$projects = Project::where('PROJECTID', 1)->paginate(5);
-        $projects = Project::first()->paginate(5);
-        echo $projects[0]->GEBRUIKERSNAAM;
+        $projects = Project::all();
         
-        //die();
+
         return view('pages.projects')->with(compact('projects'));
 
+    }
+    
+    function view($id) {
+        $project = Project::find($id);
+        return view('pages.viewProject')->with(compact('project'));
     }
 
     function save (Request $request) {
