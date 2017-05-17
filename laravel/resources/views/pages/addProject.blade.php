@@ -16,12 +16,12 @@ Project Aanvragen
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <form role="form" action="{{ route('addProject') }}" method="get" id="newProjectForm">
+                        <form role="form" action="{{ route('addProject') }}" method="post" id="newProjectForm">
                             <div class="form-group">
                                 <label>Omschrijving van het project</label>
                                 <input type="text" name="desc" id="desc" class="form-control"></input>
                             </div>
-
+                            {{ csrf_field() }}
                             <button type="submit" class="btn btn-default">Submit Button</button>
                             <button type="reset" class="btn btn-default">Reset Button</button>
                         </form>
@@ -67,7 +67,7 @@ Project Aanvragen
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <form role="form">
+                        <form role="form" type="post">
                             <div class="form-group">
                                 <label></label>
                                 <input class="form-control" placeholder="Enter text">

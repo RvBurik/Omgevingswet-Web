@@ -38,7 +38,7 @@ $('#map').click(function(event) {
 
         $.ajax({
             type: "POST",
-            url: '/addproject',
+            url: '/project/add',
             data: {'coordinates': coordinates},
             dataType: 'json',
             success: function (data) {

@@ -84,12 +84,14 @@ var map = new ol.Map({
         source: new ol.source.OSM()
     })],
     target: 'map',
+
     controls: ol.control.defaults({}),
     view: new ol.View({
-        center: [0, 0],
-        zoom: 2
+        center: [545125.3041545388,6868791.900772084],
+        zoom: 7
     })
 });
+
 
 $('#zoom-out').click(function () {
     var view = map.getView();
@@ -106,17 +108,19 @@ $('#zoom-in').click(function () {
 $('#map').click(function (event) {
     alert(map.getEventCoordinate(event));
     var coordinates = map.getEventCoordinate(event);
-    // $.ajaxSetup({
-    //     headers: {
-    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //     }
-    // });
+        var coordinates = ol.proj.transform(coordinates, 'EPSG:3857', 'EPSG:4326');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
     $.ajax({
         type: "POST",
-        url: '/addproject',
+        url: '/project/coordinates',
         data: { 'coordinates': coordinates },
         dataType: 'json',
+
         success: function success(data) {
             alert("Coordinaten zijn bekend!");
         },

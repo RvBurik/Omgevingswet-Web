@@ -26,7 +26,9 @@ Route::get('/index', function(){
 Route::group(['prefix' => 'project', 'middleware' => 'auth'], function () {
     Route::get('/new', 'MapController@index');
 
-    Route::get('/add', 'ProjectController@save')->name('addProject');
+    Route::post('/add', 'ProjectController@save')->name('addProject');
+
+    Route::post('/coordinates', 'MapController@coordinatesSaved');
 
     Route::get('/delete/{id}', 'ProjectController@delete');
 

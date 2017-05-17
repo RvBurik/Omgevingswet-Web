@@ -22,7 +22,7 @@
                     <li><a href="/register"></i>Register</a></li>
                 @else
                     <li class="dropdown">
-                        <li><a href="/"> {{ Auth::user()->VOORNAAM }}</a></li>
+                        <li><a href="/"> {{ Auth::user()->GEBRUIKERSNAAM }}</a></li>
                         <li>
                             <a href="{{ route('logout') }}"
                                 onclick="event.preventDefault();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Project;
 use Illuminate\Http\Request;
 use Auth;
@@ -18,18 +19,33 @@ class ProjectController extends Controller
     }
 
     function save (Request $request) {
-        $this->validate($request, [
-            'desc' => 'required|max:255|min:5'
-        ]);
-        $project = new Project();
-        $project->gebruikerID = Auth::user()->gebruikerID;
-        $project->locatieID = 1;
-        $project->omschrijving = $request->input('desc');
-        $project->save();
 
-        session()->flash('message', 'Project succesvol aangevraagd');
-        session()->flash('alert-class', 'alert-success');
-        return redirect()->back();
+        $project = new Project();
+        $project->GEBRUIKERSNAAM = Auth::user()->GEBRUIKERSNAAM;
+        $project->omschrijving = $request->input('desc');
+        $beschrijving = $request->input('desc');
+        $coordinatenXY = session('coordinaten');
+
+        if($coordinatenXY[0] == NULL || $coordinatenXY[1] == NULL){
+            session()->flash('message', 'U heeft geen locatie geselecteerd');
+            session()->flash('alert-class', 'alert-danger');
+            return redirect()->back();
+        }
+        else if($beschrijving = "" || strlen($beschrijving) < 5 || strlen($beschrijving) > 255){
+            session()->flash('message', 'Uw beschrijving voldoet niet aan de voorwaarde');
+            session()->flash('alert-class', 'alert-danger');
+            return redirect()->back();
+        }
+        else{
+            DB::select('exec spAddProject ?, ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->input('desc'), $coordinatenXY[1], $coordinatenXY[0]));
+
+            session()->flash('message', 'Project succesvol aangevraagd');
+            session()->flash('alert-class', 'alert-success');
+            return redirect()->back();
+
+        }
+
+
 
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Coordinates;
 use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use Illuminate\Http\Request;
 
@@ -16,11 +17,11 @@ class MapController extends Controller
     function coordinatesSaved(Request $request)
     {
         $this->validate($request, [
-            'coordinates' => 'required|max:197|min:5'
+            'coordinates' => 'required|max:197|min:0'
         ]);
         $coordinatesXY = new Coordinates();
-        $coordinatesXY->coordinates = $request->get('coordinates');
-        $coordinatesXY->save();
-        return response($coordinatesXY);
+        $coordinatesXY = $request->get('coordinates');
+        session(['coordinaten' => $coordinatesXY]);
+
     }
 }
