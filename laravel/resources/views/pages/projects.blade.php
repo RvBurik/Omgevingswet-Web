@@ -16,11 +16,10 @@
                         @foreach($projects as $project)
                             <hr>
                             <div>
-                                <h3>{{$project->omschrijving}}<a href="/project/delete/{{$project->projectID}}"><i class="fa fa-times" aria-hidden="true"></i></a></h3>
-                                <p>{{$project->status}}</p>
+                                <h3><a href="/project/{{$project->PROJECTID}}">Project #{{$project->PROJECTID}} - {{$project->WERKZAAMHEID}}</a> <a href="/project/delete/{{$project->PROJECTID}}"><i class="fa fa-times" aria-hidden="true"></i></a></h3>
                             </div>
                         @endforeach
-                        {{ $projects->links() }}
+                        
                     </div>
                 @else
                     <h2>You don't have any projects yet</h2>

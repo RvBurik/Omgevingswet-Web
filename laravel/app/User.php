@@ -8,11 +8,12 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+
     protected $table = 'GEBRUIKER';
     public $timestamps = false;
-    protected $primaryKey = 'MAILADRES';
+    protected $primaryKey = 'GEBRUIKERSNAAM';
     public $incrementing = false;
-    protected $fillable = ['gebruikersnaam', 'voornaam', 'tussenvoegsel', 'achternaam', 'geboortedatum', 'geslacht', 'MAILADRES', 'bedrijfsID', 'WACHTWOORD'];
+    protected $fillable = ['VOORNAAM', 'TUSSENVOEGSEL', 'ACHTERNAAM', 'GEBOORTEDATUM', 'GESLACHT', 'MAILADRES', 'BEDRIJFSID', 'WACHTWOORD'];
     protected $hidden = ['WACHTWOORD'];
 
     public function getAuthPassword()
@@ -43,6 +44,5 @@ class User extends Authenticatable
             parent::setAttribute($key, $value);
         }
     }
-
 
 }

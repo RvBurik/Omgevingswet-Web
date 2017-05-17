@@ -36,6 +36,17 @@ class UserSeeder extends Seeder
             'WACHTWOORD' => bcrypt('tmp123'),
         ]);
 
+		\App\User::create([
+			'gebruikersnaam' => 'omgevingswet',
+            'voornaam' => 'Omgevings',
+            'tussenvoegsel' => null,
+            'achternaam' => 'Wet',
+            'geboortedatum' => '1970-01-01',
+            'geslacht' => 'M',
+            'mailadres' => 'test@omgevingswet.net',
+            'wachtwoord' => bcrypt('omgevingswet'),
+        ]);
+
         factory(App\User::class, 3)->create();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Project;
+use App\Permit;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -13,16 +14,17 @@ class ProjectController extends Controller
 {
 
     function index() {
-        $projects = Project::where('gebruikerID', Auth::user()->id)->paginate(5);
+        $projects = Project::where('GEBRUIKERSNAAM', Auth::user()->GEBRUIKERSNAAM)->paginate(5);
         return view('pages.projects')->with(compact('projects'));
 
     }
 
-    function save (Request $request) {
+    function view($id) {
+        $project = Project::find($id);
+        return view('pages.viewProject')->with(compact('project'));
+    }
 
-        $project = new Project();
-        $project->GEBRUIKERSNAAM = Auth::user()->GEBRUIKERSNAAM;
-        $project->omschrijving = $request->input('desc');
+    function save (Request $request) {
         $beschrijving = $request->input('desc');
         $coordinatenXY = session('coordinaten');
 
@@ -46,15 +48,18 @@ class ProjectController extends Controller
         }
 
 
-
     }
 
     function delete ($id) {
-        $project = Project::where('projectID', $id)->firstOrFail();
-        $project->delete();
+        $project = Project::where('PROJECTID', $id)->firstOrFail();
 
-        session()->flash('message', 'Project succesvol verwijderd');
-        session()->flash('alert-class', 'alert-success');
-        return redirect('/project');
+        if (Auth::user() != null && $project->mayUserRemove(Auth::user())) {
+            $project->delete();
+            session()->flash('message', 'Project succesvol verwijderd');
+            session()->flash('alert-class', 'alert-success');
+            return redirect('/project');
+        }
+        else
+            return redirect('/project/' . $id);
     }
 }
