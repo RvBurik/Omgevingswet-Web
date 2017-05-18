@@ -14,7 +14,7 @@ class ProjectController extends Controller
 {
 
     function index() {
-        $projects = Project::where('GEBRUIKERSNAAM', Auth::user()->GEBRUIKERSNAAM)->paginate(5);
+        $projects = Project::where('GEBRUIKERSNAAM', Auth::user()->GEBRUIKERSNAAM)->paginate(50);
         return view('pages.projects')->with(compact('projects'));
 
     }

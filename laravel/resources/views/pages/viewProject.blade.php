@@ -14,7 +14,17 @@
                     <h2>Projectinformatie</h2>
                 </div>
                 <div class="panel-body">
+                    <h3>Projecttitel</h3>
                     <p>{{$project->WERKZAAMHEID}}</p>
+                        <p>
+                        @if ($project->KVKNUMMER == null)
+                            <b>Projecteigenaar: </b>{{$project->user->fullName()}} ({{$project->user->GEBRUIKERSNAAM}})
+                        @else
+                            <b>Projecteigenaar: </b>{{$project->company->BEDRIJFSNAAM}}<br>
+                            <b>Contactpersoon: </b>{{$project->user->fullName()}} ({{$project->user->GEBRUIKERSNAAM}})
+                        @endif
+                    </p>
+                    <p>Project aangemaakt op {{$project->AANGEMAAKTOP}}.</p>
                 </div>
             </div>
             <div class="panel panel-default">

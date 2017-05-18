@@ -15,6 +15,18 @@ class User extends Authenticatable
     public $incrementing = false;
     protected $fillable = ['VOORNAAM', 'TUSSENVOEGSEL', 'ACHTERNAAM', 'GEBOORTEDATUM', 'GESLACHT', 'MAILADRES', 'BEDRIJFSID', 'WACHTWOORD'];
     protected $hidden = ['WACHTWOORD'];
+    
+    public function projects() {
+        return $this->hasMany('App\Project', 'GEBRUIKERSNAAM');
+    }
+
+    public function fullName() {
+        $name = $this->VOORNAAM;
+        if ($this->TUSSENVOEGSEL != null)
+            $name .= ' ' . $this->TUSSENVOEGSEL;
+        $name .= ' ' . $this->ACHTERNAAM;
+        return $name;
+    }
 
     public function getAuthPassword()
     {
