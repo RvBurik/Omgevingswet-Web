@@ -6,6 +6,7 @@ use DB;
 use App\Project;
 use App\Permit;
 use Illuminate\Http\Request;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use Auth;
 
 use App\Http\Requests;
@@ -21,6 +22,10 @@ class ProjectController extends Controller
 
     function view($id) {
         $project = Project::find($id);
+        $coordinateX = $project->XCOORDINAAT;
+        $coordinateY = $project->YCOORDINAAT;
+
+        Mapper::map($coordinateX, $coordinateY, ['zoom' => 15]);
         return view('pages.viewProject')->with(compact('project'));
     }
 

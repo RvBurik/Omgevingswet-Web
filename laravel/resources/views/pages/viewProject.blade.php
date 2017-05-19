@@ -9,7 +9,7 @@
             <h3>U moet ingelogd zijn om projecten te kunnen bekijken.</h3>
             <p>Klik <a href="/login">hier</a> om in te loggen.</p>
         @elseif (!empty($project) && $project->isVisibleToUser(Auth::user()))
-            <div class="panel panel-default">
+            <div class="panel panel-default col-lg-6">
                 <div class="panel-heading">
                     <h2>Projectinformatie</h2>
                 </div>
@@ -27,7 +27,13 @@
                     <p>Project aangemaakt op {{$project->AANGEMAAKTOP}}.</p>
                 </div>
             </div>
-            <div class="panel panel-default">
+
+            <div class="col-lg-6">
+                <div style="height: 500px; width: 500px;">{!! Mapper::render () !!}</div>
+            </div>
+
+
+            <div class="panel panel-default col-lg-12">
                 <div class="panel-heading">
                     <h2>Vergunningen</h2>
                 </div>

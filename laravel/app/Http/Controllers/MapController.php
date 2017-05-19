@@ -24,4 +24,11 @@ class MapController extends Controller
         session(['coordinaten' => $coordinatesXY]);
 
     }
+
+    function showMapWithCoordinates(Project $project){
+        $coordinateX = $project->get('XCOORDINAAT');
+        $coordinateY = $project->get('YCOORDINAAT');
+        Mapper::map($coordinateX, $coordinateY);
+     
+    }
 }
