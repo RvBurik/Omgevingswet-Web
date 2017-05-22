@@ -37,6 +37,8 @@ Route::group(['prefix' => 'project'/*, 'middleware' => 'auth'*/], function () {
     Route::get('/{id}', 'ProjectController@view');
 
     Route::post('/addInfo', 'ProjectController@addPermitInfo')->name('addPermitInfo');
+    
+    Route::get('/{projectId}/file/{infoId}', 'ProjectController@viewInfoFile')->name('viewInfoFile');
 });
 
 Route::get('/permits', 'PermitsController@index');

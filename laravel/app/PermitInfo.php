@@ -23,12 +23,12 @@ class PermitInfo extends Model
     }
 
     public function hasValidFile() {
-        return isset($this->LOCATIE) && (file_exists($this->LOCATIE) || @fopen($this->LOCATIE, "r"));
+        return isset($this->LOCATIE) && file_exists($this->localFileLocation());
     }
 
     public function isImage() {
         if ($this->hasValidFile())
-            return getimagesize($this->LOCATIE) ? true : false;
+            return getimagesize($this->localFileLocation()) ? true : false;
         else
             return false;
     }
@@ -40,14 +40,7 @@ class PermitInfo extends Model
     public function fileSize() {
         //TODO: Valid filesize
         if ($this->hasValidFile()) {
-            if (file_exists($this->LOCATIE))
-                return filesize($this->LOCATIE);
-            else
-            {
-                $head = array_change_key_case(get_headers($this->LOCATIE, 1));
-                return $head['content-length'];
-            }
-                
+            return filesize($this->localFileLocation());
         }
         return null;
     }
@@ -66,5 +59,13 @@ class PermitInfo extends Model
         }
         else
             return 'unknown';
+    }
+
+    public function localFileLocation() {
+        return storage_path() . '/app/' . $this->LOCATIE;
+    }
+
+    public function downloadLink() {
+        return '/project/' . $this->project->PROJECTID . '/file/' . $this->VOLGNUMMER;
     }
 }

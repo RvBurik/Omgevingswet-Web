@@ -68,9 +68,9 @@
                                 <p>{{$permitInfo->UITLEG}}</p>
                                 @if ($permitInfo->hasValidFile())
                                     @if ($permitInfo->isImage())
-                                        <img src="{{$permitInfo->LOCATIE}}">
+                                        <img src="{{$permitInfo->downloadLink()}}">
                                     @endif
-                                    <p><a href="{{$permitInfo->LOCATIE}}">Download {{$permitInfo->shortFileName()}} ({{$permitInfo->fileSizeString()}})</a></p>
+                                    <p><a href="{{$permitInfo->downloadLink()}}">Download {{$permitInfo->shortFileName()}} ({{$permitInfo->fileSizeString()}})</a></p>
                                 @endif
                                 <p><i>Toegevoegd door <b>{{$permitInfo->user->fullName()}}</b> op {{$permitInfo->DATUM}}</i></p>
                             </div>

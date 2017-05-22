@@ -76,7 +76,7 @@ class ProjectController extends Controller
             $uploadedFile = $request->file('attachmentFile');
             if (isset($uploadedFile) && $uploadedFile->isValid()) {
                 //TODO: Remove error logs when done testing.
-                $path = $request->file('attachmentFile')->store('permitinfo/project' . $project->PROJECTID, 'public');
+                $path = $request->file('attachmentFile')->store('permitinfo/project' . $project->PROJECTID);
                 error_log('path: ' . $path);
                 error_log('asset: ' . asset($path));
                 $permitInfo->LOCATIE = $path;                
@@ -89,5 +89,15 @@ class ProjectController extends Controller
             return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);   
         }
         return redirect('/project/' . $projectId);
-    }   
+    }
+
+    function viewInfoFile($projectId, $infoId) {
+        $project = Project::where('PROJECTID', $projectId)->firstOrFail();
+        if (Auth::user() != null && $project->isVisibleToUser(Auth::user())) {
+            $permitInfo = $project->permitInfos->where('VOLGNUMMER', $infoId)->first();
+            //TODO: Confirm whether this works from an external server.
+            return response()->file($permitInfo->localFileLocation());
+        }
+        return redirect('/project/' . $projectId);
+    }
 }
