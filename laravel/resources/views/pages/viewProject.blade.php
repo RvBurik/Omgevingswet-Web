@@ -32,6 +32,33 @@
                     <h2>Vergunningsinformatie</h2>
                 </div>
                 <div class="panel-body">
+                    @if ($project->mayUserAddInfo(Auth::user()))
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3>Informatiestuk toevoegen</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form role="form" action="{{ route('addPermitInfo') }}" method="post">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="project" value="{{$project->PROJECTID}}">
+                                    <div class="form-group">
+                                        <label>Uitleg</label>
+                                        <textarea class="form-control" name="description" rows="5"></textarea>
+                                    </div>
+                                     <div class="form-group">
+                                        <label>Bijlage</label>
+                                        <input class="form-control" name="location" placeholder="Voeg een link toe...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Bestand uploaden</label>
+                                        <input type="file">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                    <button type="reset" class="btn btn-default">Reset</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
                     @foreach ($project->permitInfos as $permitInfo)
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -39,11 +66,11 @@
                             </div>
                             <div class="panel-body">
                                 <p>{{$permitInfo->UITLEG}}</p>
-                                @if (isset($permitInfo->LOCATIE))
+                                @if ($permitInfo->hasValidFile())
                                     @if ($permitInfo->isImage())
                                         <img src="{{$permitInfo->LOCATIE}}">
                                     @endif
-                                    <p><a href="{{$permitInfo->LOCATIE}}">Download {{$permitInfo->shortFileName()}} (... kB)</a></p>
+                                    <p><a href="{{$permitInfo->LOCATIE}}">Download {{$permitInfo->shortFileName()}} ({{$permitInfo->fileSizeString()}})</a></p>
                                 @endif
                             </div>
                         </div>

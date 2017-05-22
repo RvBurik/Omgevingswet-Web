@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Project;
+use App\PermitInfo;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -61,4 +62,20 @@ class ProjectController extends Controller
         else
             return redirect('/project/' . $id);
     }
+
+    function addPermitInfo(Request $request) {
+        $projectId = $request->input('project');
+        $project = Project::where('PROJECTID', $projectId)->firstOrFail();
+        if (Auth::user() != null && $project->mayUserAddInfo(Auth::user())) {
+            $permitInfo = new PermitInfo;
+            //TODO: Use sproc when ready.
+            $permitInfo->PROJECTID = $project->PROJECTID;
+            $permitInfo->VOLGNUMMER = 1;
+            $permitInfo->GEBRUIKERSNAAM = Auth::user()->GEBRUIKERSNAAM;
+            $permitInfo->UITLEG = $request->input('description');
+            $permitInfo->LOCATIE = $request->input('location');
+            $permitInfo->save();
+        }
+        return redirect('/project/' . $projectId);
+    }   
 }

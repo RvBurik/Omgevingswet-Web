@@ -35,6 +35,8 @@ Route::group(['prefix' => 'project'/*, 'middleware' => 'auth'*/], function () {
     Route::get('/', 'ProjectController@index');
     
     Route::get('/{id}', 'ProjectController@view');
+
+    Route::post('/addInfo', 'ProjectController@addPermitInfo')->name('addPermitInfo');
 });
 
 Route::get('/permits', 'PermitsController@index');
