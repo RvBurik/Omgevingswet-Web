@@ -18,6 +18,10 @@ class PermitInfo extends Model
 		return $this->belongsTo('App\Project', 'PROJECTID');
 	}
 
+    public function user() {
+        return $this->belongsTo('App\User', 'GEBRUIKERSNAAM');
+    }
+
     public function hasValidFile() {
         return isset($this->LOCATIE) && (file_exists($this->LOCATIE) || @fopen($this->LOCATIE, "r"));
     }

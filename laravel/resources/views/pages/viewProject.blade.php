@@ -72,6 +72,7 @@
                                     @endif
                                     <p><a href="{{$permitInfo->LOCATIE}}">Download {{$permitInfo->shortFileName()}} ({{$permitInfo->fileSizeString()}})</a></p>
                                 @endif
+                                <p><i>Toegevoegd door <b>{{$permitInfo->user->fullName()}}</b> op {{$permitInfo->DATUM}}</i></p>
                             </div>
                         </div>
                     @endforeach

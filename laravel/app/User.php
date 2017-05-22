@@ -20,6 +20,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Project', 'GEBRUIKERSNAAM');
     }
 
+    public function permitInfos() {
+        return $this->hasMany('App\PermitInfo', 'GEBRUIKERSNAAM');
+    }
+
     public function fullName() {
         $name = $this->VOORNAAM;
         if ($this->TUSSENVOEGSEL != null)
