@@ -73,9 +73,20 @@ class ProjectController extends Controller
             $permitInfo->VOLGNUMMER = 1;
             $permitInfo->GEBRUIKERSNAAM = Auth::user()->GEBRUIKERSNAAM;
             $permitInfo->UITLEG = $request->input('description');
-            $permitInfo->LOCATIE = $request->input('location');
+            $uploadedFile = $request->file('attachmentFile');
+            if (isset($uploadedFile) && $uploadedFile->isValid()) {
+                //TODO: Remove error logs when done testing.
+                $path = $request->file('attachmentFile')->store('permitinfo/project' . $project->PROJECTID, 'public');
+                error_log('path: ' . $path);
+                error_log('asset: ' . asset($path));
+                $permitInfo->LOCATIE = $path;                
+            } else {
+                //TODO: Check if link is valid.
+                //TODO: Maybe move the file to local storage to speed things up.
+                $permitInfo->LOCATIE = $request->input('attachmentLocation');
+            }
             $permitInfo->save();
-            return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);
+            return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);   
         }
         return redirect('/project/' . $projectId);
     }   

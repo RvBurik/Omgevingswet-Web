@@ -38,7 +38,7 @@
                                 <h3>Informatiestuk toevoegen</h3>
                             </div>
                             <div class="panel-body">
-                                <form role="form" action="{{ route('addPermitInfo') }}" method="post">
+                                <form role="form" action="{{ route('addPermitInfo') }}" method="post" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="project" value="{{$project->PROJECTID}}">
                                     <div class="form-group">
@@ -47,11 +47,11 @@
                                     </div>
                                      <div class="form-group">
                                         <label>Bijlage</label>
-                                        <input class="form-control" name="location" placeholder="Voeg een link toe...">
+                                        <input class="form-control" name="attachmentLocation" placeholder="Voeg een link toe...">
                                     </div>
                                     <div class="form-group">
                                         <label>Bestand uploaden</label>
-                                        <input type="file">
+                                        <input type="file" name="attachmentFile">
                                     </div>
                                     <button type="submit" class="btn btn-default">Submit</button>
                                     <button type="reset" class="btn btn-default">Reset</button>
