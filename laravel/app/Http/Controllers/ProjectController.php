@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Project;
-use App\Permit;
 use Illuminate\Http\Request;
 use Auth;
 

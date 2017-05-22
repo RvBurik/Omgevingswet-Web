@@ -10,7 +10,6 @@ class Permit extends Model
     public $timestamps = false;
 
     protected $primaryKey = 'VERGUNNINGSID';
-	//TODO: Vergunningsinformatie mist nog.
     protected $fillable = ['VERGUNNINGSNAAM', 'STATUS', 'PROJECTID', 'OMSCHRIJVING', 'DATUMAANVRAAG', 'DATUMUITGAVE', 'DATUMVERLOOP'];
 
 	public function project() {

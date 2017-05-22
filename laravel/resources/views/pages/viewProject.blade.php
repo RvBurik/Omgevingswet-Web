@@ -29,6 +29,29 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
+                    <h2>Vergunningsinformatie</h2>
+                </div>
+                <div class="panel-body">
+                    @foreach ($project->permitInfos as $permitInfo)
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3>Informatiestuk {{$permitInfo->VOLGNUMMER}}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <p>{{$permitInfo->UITLEG}}</p>
+                                @if (isset($permitInfo->LOCATIE))
+                                    @if ($permitInfo->isImage())
+                                        <img src="{{$permitInfo->LOCATIE}}">
+                                    @endif
+                                    <p><a href="{{$permitInfo->LOCATIE}}">Download {{$permitInfo->shortFileName()}} (... kB)</a></p>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
                     <h2>Vergunningen</h2>
                 </div>
                 <div class="panel-body">
