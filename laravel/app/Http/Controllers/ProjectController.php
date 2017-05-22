@@ -75,6 +75,7 @@ class ProjectController extends Controller
             $permitInfo->UITLEG = $request->input('description');
             $permitInfo->LOCATIE = $request->input('location');
             $permitInfo->save();
+            return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);
         }
         return redirect('/project/' . $projectId);
     }   

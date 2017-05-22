@@ -62,7 +62,7 @@
                     @foreach ($project->permitInfos as $permitInfo)
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3>Informatiestuk {{$permitInfo->VOLGNUMMER}}</h3>
+                                <h3 id="permit-info-{{$permitInfo->VOLGNUMMER}}">Informatiestuk {{$permitInfo->VOLGNUMMER}}</h3>
                             </div>
                             <div class="panel-body">
                                 <p>{{$permitInfo->UITLEG}}</p>
