@@ -33,8 +33,12 @@ Route::group(['prefix' => 'project'/*, 'middleware' => 'auth'*/], function () {
     Route::get('/delete/{id}', 'ProjectController@delete');
 
     Route::get('/', 'ProjectController@index');
-    
+
     Route::get('/{id}', 'ProjectController@view');
+
+    Route::get('/bezwaar/{id}', 'ProjectController@bezwaar');
+
+    Route::post('/bezwaarsend', 'ProjectController@saveBezwaar')->name('objection');
 });
 
 Route::get('/permits', 'PermitsController@index');

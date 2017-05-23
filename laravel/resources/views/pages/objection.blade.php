@@ -9,7 +9,7 @@
             <h3>U moet ingelogd zijn om projecten te kunnen bekijken.</h3>
             <p>Klik <a href="/login">hier</a> om in te loggen.</p>
         @elseif (!empty($project) && $project->isVisibleToUser(Auth::user()))
-            <div class="panel panel-default col-lg-6">
+            <div class="panel panel-default col-lg-12">
                 <div class="panel-heading">
                     <h2>Projectinformatie</h2>
                 </div>
@@ -26,26 +26,40 @@
                     </p>
                     <p>Project aangemaakt op {{$project->AANGEMAAKTOP}}.</p>
                 </div>
-
-                <div class="panel-heading">
-                    <h2>Bezwaar</h2>
-                </div>
-                <div class="panel-body">
-                    <p>Bent u het niet eens met bovenstaand project? Laat het ons weten door bezwaar te maken!</p>
-                </div>
-                <div class="form-group">
-                    <a class="btn btn-link" href="/project/bezwaar/{{$project->PROJECTID}}">Bezwaar maken </a>
-
-                </div>
             </div>
-            <div class="panel panel-default col-lg-5 col-sm-offset-1">
+
+            <div class="panel panel-default col-lg-12">
                 <div class="panel-heading">
-                    <h2>Locatie</h2>
+                    <h2>Bezwaar aantekenen</h2>
                 </div>
                 <div class="panel-body">
-                    <div class="col-lg-6">
-                        <div style="height: 500px; width: 500px;">{!! Mapper::render () !!}</div>
-                    </div>
+                    <!-- <h3>Reden van uw bezwaar</h3> -->
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('objection') }}">
+                        {{ csrf_field() }}
+
+                        <div class="form-group{{ $errors->has('reason') ? ' has-error' : '' }}">
+                            <label for="reason" class="col-md-12 ">Reden</label>
+
+                            <div class="col-md-6">
+                                <input id="reason" type="text" class="form-control" name="reason" value="{{ old('reason') }}" required autofocus>
+                                <input id="PROJECTID" type="hidden" name="PROJECTID" value="{{$project->PROJECTID}}">
+                                @if ($errors->has('reason'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('reason') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-8 ">
+                                <button type="submit" class="btn btn-primary">
+                                    Verstuur
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
             </div>
 

@@ -20,6 +20,20 @@ class ProjectController extends Controller
 
     }
 
+    function bezwaar($id){
+        $project = Project::find($id);
+        return view('pages.objection')->with(compact('project'));
+    }
+
+    function saveBezwaar(Request $request){
+        
+        DB::select('exec spMakeObjection ?, ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->PROJECTID, NULL, $request->input('reason')));
+
+        session()->flash('message', 'Bezwaar succesvol aangetekend!');
+        session()->flash('alert-class', 'alert-success');
+        return redirect()->back();
+    }
+
     function view($id) {
         $project = Project::find($id);
         $coordinateX = $project->XCOORDINAAT;
