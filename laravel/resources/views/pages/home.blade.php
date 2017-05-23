@@ -20,7 +20,9 @@
             <div class="panel-heading">
                 <i class="fa fa-bar-chart-o fa-fw"></i> Locatie
             </div>
-            <!-- /.panel-heading -->
+
+            <div style="height: 500px; width: 500px;">{!! Mapper::render () !!}</div>
+            
             <div class="panel-body">
                 <div id="morris-area-chart"></div>
             </div>

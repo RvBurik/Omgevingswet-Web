@@ -29,6 +29,13 @@ class MapController extends Controller
         $coordinateX = $project->get('XCOORDINAAT');
         $coordinateY = $project->get('YCOORDINAAT');
         Mapper::map($coordinateX, $coordinateY);
-     
+
+    }
+
+    function showMapWithAllCoordinates(){
+        Mapper::marker(53.381128999999990000, -1.470085000000040000);
+        Mapper::marker(53.481128999999990000, -1.470085000000040000);
+
+        return view('pages.home');
     }
 }
