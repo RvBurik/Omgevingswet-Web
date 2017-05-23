@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class PermitInfo extends Model
 {
@@ -13,6 +14,20 @@ class PermitInfo extends Model
     protected $primaryKey = ['PROJECTID', 'VOLGNUMMER'];
     //TODO: Om een of andere reden is de UITLEG capped tot 255 tekens in dit model.
     protected $fillable = ['GEBRUIKERSNAAM', 'UITLEG', 'DATUM', 'LOCATIE'];
+
+    public static function createPermitInfo($projectId, $gebruikersnaam, $uitleg) {
+        //print_r(DB::select('DECLARE @volgnummer INT; EXEC procToevoegenVergunningsinformatie ?, ?, ?, NULL, ?, @volgnummer OUTPUT; SELECT  @volgnummer;',array($projectId, $gebruiker, $uitleg, $locatie)));
+        $permitInfo = new PermitInfo;
+        $permitInfo->PROJECTID = $projectId;
+        $permitInfo->VOLGNUMMER = PermitInfo::getNextVolgnummer($projectId);
+        $permitInfo->GEBRUIKERSNAAM = $gebruikersnaam;
+        $permitInfo->UITLEG = $uitleg;
+        return $permitInfo;
+    }
+
+    private static function getNextVolgnummer($projectId) {
+        return PermitInfo::where('PROJECTID', $projectId)->max('VOLGNUMMER') + 1;
+    }
 
 	public function project() {
 		return $this->belongsTo('App\Project', 'PROJECTID');

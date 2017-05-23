@@ -7,6 +7,7 @@ use App\Project;
 use App\PermitInfo;
 use Illuminate\Http\Request;
 use Auth;
+use Storage;
 
 use App\Http\Requests;
 
@@ -16,7 +17,6 @@ class ProjectController extends Controller
     function index() {
         $projects = Project::where('GEBRUIKERSNAAM', Auth::user()->GEBRUIKERSNAAM)->paginate(50);
         return view('pages.projects')->with(compact('projects'));
-
     }
 
     function view($id) {
@@ -67,24 +67,23 @@ class ProjectController extends Controller
         $projectId = $request->input('project');
         $project = Project::where('PROJECTID', $projectId)->firstOrFail();
         if (Auth::user() != null && $project->mayUserAddInfo(Auth::user())) {
-            $permitInfo = new PermitInfo;
-            //TODO: Use sproc when ready.
-            $permitInfo->PROJECTID = $project->PROJECTID;
-            $permitInfo->VOLGNUMMER = 1;
-            $permitInfo->GEBRUIKERSNAAM = Auth::user()->GEBRUIKERSNAAM;
-            $permitInfo->UITLEG = $request->input('description');
+            $gebruiker = $request->input('gebruiker');
+            $uitleg = $request->input('description');
+            $permitInfo = PermitInfo::createPermitInfo($projectId, Auth::user()->GEBRUIKERSNAAM, $request->input('description'));
+
+            $storageLocation = 'permitinfo/project' . $project->PROJECTID;
             $uploadedFile = $request->file('attachmentFile');
             if (isset($uploadedFile) && $uploadedFile->isValid()) {
                 //TODO: Remove error logs when done testing.
-                $path = $request->file('attachmentFile')->store('permitinfo/project' . $project->PROJECTID);
-                error_log('path: ' . $path);
-                error_log('asset: ' . asset($path));
-                $permitInfo->LOCATIE = $path;                
+                $newFileLocation = $uploadedFile->storeAs($storageLocation, $permitInfo->VOLGNUMMER . '-' . $uploadedFile->getClientOriginalName());             
             } else {
-                //TODO: Check if link is valid.
-                //TODO: Maybe move the file to local storage to speed things up.
-                $permitInfo->LOCATIE = $request->input('attachmentLocation');
+                $fileLocation = $request->input('attachmentLocation');
+                //TODO: Check if link is valid and exists. Add http:// if needed. @
+                $remoteFile = file_get_contents($fileLocation);
+                $newFileLocation = $storageLocation . '/' . $permitInfo->VOLGNUMMER . '-' . substr($fileLocation, strrpos($fileLocation, '/') + 1);
+                Storage::put($newFileLocation, $remoteFile);
             }
+            $permitInfo->LOCATIE = $newFileLocation;
             $permitInfo->save();
             return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);   
         }
