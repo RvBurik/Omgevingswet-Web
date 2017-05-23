@@ -39,6 +39,14 @@ Route::group(['prefix' => 'project'/*, 'middleware' => 'auth'*/], function () {
     Route::get('/bezwaar/{id}', 'ProjectController@bezwaar');
 
     Route::post('/bezwaarsend', 'ProjectController@saveBezwaar')->name('objection');
+
+    Route::post('/addInfo', 'ProjectController@addPermitInfo')->name('addPermitInfo');
+
+    Route::get('/{projectId}/file/{infoId}', 'ProjectController@viewInfoFile')->name('viewInfoFile');
+
+    Route::get('/bezwaar/vergunning/{vergunningsid}', 'ProjectController@bezwaarOpVergunning');
+
+
 });
 
 Route::get('/permits', 'PermitsController@index');

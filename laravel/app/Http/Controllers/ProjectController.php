@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\Project;
 use App\Permit;
+use App\PermitInfo;
 use Illuminate\Http\Request;
 use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use Auth;
@@ -22,12 +23,19 @@ class ProjectController extends Controller
 
     function bezwaar($id){
         $project = Project::find($id);
-        return view('pages.objection')->with(compact('project'));
+        $vergunning = 0;
+        return view('pages.objection')->with(compact('vergunning', 'project'));
+    }
+
+    function bezwaarOpVergunning($vergunningsid){
+        $vergunning = Permit::find($vergunningsid);
+        $project = Project::find($vergunning->PROJECTID);
+        return view('pages.objection')->with(compact('vergunning', 'project'));
     }
 
     function saveBezwaar(Request $request){
-        
-        DB::select('exec spMakeObjection ?, ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->PROJECTID, NULL, $request->input('reason')));
+
+        DB::select('exec spMakeObjection ?, ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->PROJECTID, $request->VERGUNNINGSID, $request->input('reason')));
 
         session()->flash('message', 'Bezwaar succesvol aangetekend!');
         session()->flash('alert-class', 'alert-success');
@@ -65,8 +73,6 @@ class ProjectController extends Controller
             return redirect()->back();
 
         }
-
-
     }
 
     function delete ($id) {
@@ -80,5 +86,43 @@ class ProjectController extends Controller
         }
         else
             return redirect('/project/' . $id);
+    }
+
+    function addPermitInfo(Request $request) {
+        $projectId = $request->input('project');
+        $project = Project::where('PROJECTID', $projectId)->firstOrFail();
+        if (Auth::user() != null && $project->mayUserAddInfo(Auth::user())) {
+            $permitInfo = new PermitInfo;
+            //TODO: Use sproc when ready.
+            $permitInfo->PROJECTID = $project->PROJECTID;
+            $permitInfo->VOLGNUMMER = 1;
+            $permitInfo->GEBRUIKERSNAAM = Auth::user()->GEBRUIKERSNAAM;
+            $permitInfo->UITLEG = $request->input('description');
+            $uploadedFile = $request->file('attachmentFile');
+            if (isset($uploadedFile) && $uploadedFile->isValid()) {
+                //TODO: Remove error logs when done testing.
+                $path = $request->file('attachmentFile')->store('permitinfo/project' . $project->PROJECTID);
+                error_log('path: ' . $path);
+                error_log('asset: ' . asset($path));
+                $permitInfo->LOCATIE = $path;
+            } else {
+                //TODO: Check if link is valid.
+                //TODO: Maybe move the file to local storage to speed things up.
+                $permitInfo->LOCATIE = $request->input('attachmentLocation');
+            }
+            $permitInfo->save();
+            return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);
+        }
+        return redirect('/project/' . $projectId);
+    }
+
+    function viewInfoFile($projectId, $infoId) {
+        $project = Project::where('PROJECTID', $projectId)->firstOrFail();
+        if (Auth::user() != null && $project->isVisibleToUser(Auth::user())) {
+            $permitInfo = $project->permitInfos->where('VOLGNUMMER', $infoId)->first();
+            //TODO: Confirm whether this works from an external server.
+            return response()->file($permitInfo->localFileLocation());
+        }
+        return redirect('/project/' . $projectId);
     }
 }

@@ -38,7 +38,8 @@
 
                 </div>
             </div>
-            <div class="panel panel-default col-lg-5 col-sm-offset-1">
+
+            <div class="panel panel-default col-lg-5 col-md-offset-1">
                 <div class="panel-heading">
                     <h2>Locatie</h2>
                 </div>
@@ -48,6 +49,60 @@
                     </div>
                 </div>
             </div>
+
+            </div>
+            <div class="panel panel-default col-lg-12">
+                <div class="panel-heading">
+                    <h2>Vergunningsinformatie</h2>
+                </div>
+                <div class="panel-body">
+                    @if ($project->mayUserAddInfo(Auth::user()))
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3>Informatiestuk toevoegen</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form role="form" action="{{ route('addPermitInfo') }}" method="post" enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="project" value="{{$project->PROJECTID}}">
+                                    <div class="form-group">
+                                        <label>Uitleg</label>
+                                        <textarea class="form-control" name="description" rows="5"></textarea>
+                                    </div>
+                                     <div class="form-group">
+                                        <label>Bijlage</label>
+                                        <input class="form-control" name="attachmentLocation" placeholder="Voeg een link toe...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Bestand uploaden</label>
+                                        <input type="file" name="attachmentFile">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                    <button type="reset" class="btn btn-default">Reset</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+                    @foreach ($project->permitInfos as $permitInfo)
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 id="permit-info-{{$permitInfo->VOLGNUMMER}}">Informatiestuk {{$permitInfo->VOLGNUMMER}}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <p>{{$permitInfo->UITLEG}}</p>
+                                @if ($permitInfo->hasValidFile())
+                                    @if ($permitInfo->isImage())
+                                        <img src="{{$permitInfo->downloadLink()}}">
+                                    @endif
+                                    <p><a href="{{$permitInfo->downloadLink()}}">Download {{$permitInfo->shortFileName()}} ({{$permitInfo->fileSizeString()}})</a></p>
+                                @endif
+                                <p><i>Toegevoegd door <b>{{$permitInfo->user->fullName()}}</b> op {{$permitInfo->DATUM}}</i></p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
 
             @if (count($project->permits) > 0)
                 <div class="panel panel-default col-lg-12">
@@ -63,6 +118,11 @@
                                 <div class="panel-body">
                                     <p>{{$permit->OMSCHRIJVING}}</p>
                                     <p><b>Status: </b>{{$permit->STATUS}}</p>
+                                    <!-- <br>{{$permitInfo->user->getUserName()}}</br>
+                                    <br>{{Auth::user()}}</br> -->
+                                    @if ($permit->STATUS !== 'Verlopen' && $permitInfo->user->getUserName() !== Auth::user()->GEBRUIKERSNAAM)
+                                    <a class="btn btn-link" href="/project/bezwaar/vergunning/{{$permit->VERGUNNINGSID}}">Bezwaar maken </a>
+                                    @endif
                                     <p><i>
                                         Aangevraagd op: {{$permit->DATUMAANVRAAG}}
                                         @if (!empty($permit->DATUMUITGAVE))

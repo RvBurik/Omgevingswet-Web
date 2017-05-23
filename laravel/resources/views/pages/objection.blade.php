@@ -43,6 +43,9 @@
                             <div class="col-md-6">
                                 <input id="reason" type="text" class="form-control" name="reason" value="{{ old('reason') }}" required autofocus>
                                 <input id="PROJECTID" type="hidden" name="PROJECTID" value="{{$project->PROJECTID}}">
+                                @if($vergunning != 0)
+                                    <input id="VERGUNNINGSID" type="hidden" name="VERGUNNINGSID" value="{{$vergunning->VERGUNNINGSID}}">
+                                @endif
                                 @if ($errors->has('reason'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('reason') }}</strong>
