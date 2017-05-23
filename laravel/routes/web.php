@@ -15,15 +15,11 @@
 //     return view('pages.home');
 // });
 
-Route::get('/index', 'MapController@showMapWithAllCoordinates()');
+Route::get('/', 'MapController@showMapWithAllCoordinates');
 
-Route::get('/home', function(){
-    return view('pages.home');
-});
+Route::get('/home', 'MapController@showMapWithAllCoordinates');
 
-Route::get('/index', function(){
-    return view('pages.home');
-});
+Route::get('/index', 'MapController@showMapWithAllCoordinates');
 
 Route::group(['prefix' => 'project'/*, 'middleware' => 'auth'*/], function () {
     Route::get('/new', 'MapController@index');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Coordinates;
+use App\Project;
 use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use Illuminate\Http\Request;
 
@@ -33,9 +34,15 @@ class MapController extends Controller
     }
 
     function showMapWithAllCoordinates(){
-        Mapper::marker(53.381128999999990000, -1.470085000000040000);
-        Mapper::marker(53.481128999999990000, -1.470085000000040000);
-
+        $coordinateX = 0;
+        $coordinateY = 0;
+        //Mapper::map($coordinateX, $coordinateY, ['zoom' => 15]);
+        Mapper::map($coordinateX, $coordinateY, ['url' => '/project/1']);
+        foreach (Project::all() as $project) {
+            Mapper::marker($project->XCOORDINAAT, $project->YCOORDINAAT, ['draggable' => true, 'eventClick' => 'window.open("/project/' . $project->PROJECTID . '");']);
+        }
+        //Mapper::marker(53.381128999999990000, -1.470085000000040000);
+        //Mapper::marker(53.481128999999990000, -1.470085000000040000);
         return view('pages.home');
     }
 }
