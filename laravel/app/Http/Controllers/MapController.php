@@ -34,10 +34,10 @@ class MapController extends Controller
     }
 
     function showMapWithAllCoordinates(){
-        $coordinateX = 0;
-        $coordinateY = 0;
+        $coordinateX = 52.133517;
+        $coordinateY = 5.294511;
         //Mapper::map($coordinateX, $coordinateY, ['zoom' => 15]);
-        Mapper::map($coordinateX, $coordinateY, ['url' => '/project/1']);
+        Mapper::map($coordinateX, $coordinateY, ['zoom' => '7']);
         foreach (Project::all() as $project) {
             Mapper::marker($project->XCOORDINAAT, $project->YCOORDINAAT, ['draggable' => true, 'eventClick' => 'window.open("/project/' . $project->PROJECTID . '");']);
         }
