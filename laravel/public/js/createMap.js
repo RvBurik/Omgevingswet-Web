@@ -106,7 +106,7 @@ $('#zoom-in').click(function () {
 });
 
 $('#map').click(function (event) {
-    alert(map.getEventCoordinate(event));
+    // alert(map.getEventCoordinate(event));
     var coordinates = map.getEventCoordinate(event);
         var coordinates = ol.proj.transform(coordinates, 'EPSG:3857', 'EPSG:4326');
     $.ajaxSetup({
