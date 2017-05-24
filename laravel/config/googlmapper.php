@@ -133,7 +133,7 @@ return array(
     | Set the default Googlmapper displayed map type. (ROADMAP|SATELLITE|HYBRID|TERRAIN)
     |
     */
-    'type' => 'SATELLITE',
+    'type' => 'ROADMAP',
 
     /*
     |--------------------------------------------------------------------------

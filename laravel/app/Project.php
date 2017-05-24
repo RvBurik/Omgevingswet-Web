@@ -30,9 +30,10 @@ class Project extends Model
 
     public function isVisibleToUser(User $user) {
         //TODO: Deze wordt ook beschikbaar voor gebruikers die in de buurt wonen.
-        return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
+        //return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
+        return true;
     }
-    
+
     public function mayUserEdit(User $user) {
         //TODO: Deze wordt ook beschikbaar voor de projectcoordinator. (Gemeente ook?)
         return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
@@ -45,6 +46,7 @@ class Project extends Model
 
     public function mayUserAddInfo(User $user) {
         //TODO: Deze wordt ook beschikbaar voor de projectcoordinator en de bevoegde gezagen.
-        return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
+        //return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
+        return true;
     }
 }
