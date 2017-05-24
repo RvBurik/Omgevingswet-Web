@@ -21,7 +21,7 @@ Route::get('/home', 'MapController@showMapWithAllCoordinates');
 
 Route::get('/index', 'MapController@showMapWithAllCoordinates');
 
-Route::group(['prefix' => 'project'/*, 'middleware' => 'auth'*/], function () {
+Route::group(['prefix' => 'project', 'middleware' => 'auth'], function () {
     Route::get('/new', 'MapController@index');
 
     Route::post('/add', 'ProjectController@save')->name('addProject');
