@@ -21,7 +21,7 @@ Route::get('/home', 'MapController@showMapWithAllCoordinates');
 
 Route::get('/index', 'MapController@showMapWithAllCoordinates');
 
-//Route::get('/index', 'Auth\RegisterController@testCoordinaat');
+Route::get('/index', 'Auth\RegisterController@testCoordinaat');
 
 Route::group(['prefix' => 'project', 'middleware' => 'auth'], function () {
     Route::get('/new', 'MapController@index');

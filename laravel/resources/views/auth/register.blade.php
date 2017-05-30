@@ -144,15 +144,16 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('POSTCODE') ? ' has-error' : '' }}">
-                            <label for="POSTCODE" class="col-md-4 control-label">Postcode</label>
+
+                        <div class="form-group{{ $errors->has('STRAAT') ? ' has-error' : '' }}">
+                            <label for="STRAAT" class="col-md-4 control-label">Straat</label>
 
                             <div class="col-md-6">
-                                <input id="POSTCODE" type="text" class="form-control" name="POSTCODE" value="{{ old('POSTCODE') }}" required>
+                                <input id="STRAAT" type="text" class="form-control" name="STRAAT" value="{{ old('STRAAT') }}" required>
 
-                                @if ($errors->has('POSTCODE'))
+                                @if ($errors->has('STRAAT'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('POSTCODE') }}</strong>
+                                        <strong>{{ $errors->first('STRAAT') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -185,6 +186,35 @@
                                 @endif
                             </div>
                         </div>
+
+                        <div class="form-group{{ $errors->has('POSTCODE') ? ' has-error' : '' }}">
+                            <label for="POSTCODE" class="col-md-4 control-label">Postcode</label>
+
+                            <div class="col-md-6">
+                                <input id="POSTCODE" type="text" class="form-control" name="POSTCODE" value="{{ old('POSTCODE') }}" required>
+
+                                @if ($errors->has('POSTCODE'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('POSTCODE') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('PLAATS') ? ' has-error' : '' }}">
+                            <label for="PLAATS" class="col-md-4 control-label">Plaats</label>
+
+                            <div class="col-md-6">
+                                <input id="PLAATS" type="text" class="form-control" name="PLAATS" value="{{ old('PLAATS') }}" required>
+
+                                @if ($errors->has('PLAATS'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('PLAATS') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">

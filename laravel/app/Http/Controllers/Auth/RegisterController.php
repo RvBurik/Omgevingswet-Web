@@ -65,14 +65,26 @@ class RegisterController extends Controller
      */
     protected function addUser(Request $data)
     {
-        $location = app('geocoder')->geocode($data['POSTCODE'], $data['HUISNUMMER'], $data['TOEVOEGING'])->all();
-        DB::select('exec spInsertUser ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',array($data['GEBRUIKERSNAAM'],
-        $data['VOORNAAM'], $data['TUSSENVOEGSEL'], $data['ACHTERNAAM'], $data['GEBOORTEDATUM'], $data['GESLACHT'], $data['MAILADRES'], bcrypt($data['WACHTWOORD']), $data['TELEFOON'], $data['POSTCODE'], $data['HUISNUMMER'], $data['TOEVOEGING'], $location[0]->getLongitude(), $location[0]->getLatitude()));
-
+        try {
+            $location = app('geocoder')->geocode($data['POSTCODE'], $data['STRAAT'], $data['HUISNUMMER'], $data['TOEVOEGING'], $data['PLAATS'])->all();
+            $longitude = $location[0]->getLongitude();
+            $latitude = $location[0]->getLatitude();
+            DB::select('exec spInsertUser ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',array($data['GEBRUIKERSNAAM'],
+            $data['VOORNAAM'], $data['TUSSENVOEGSEL'], $data['ACHTERNAAM'], $data['GEBOORTEDATUM'], $data['GESLACHT'], $data['MAILADRES'], bcrypt($data['WACHTWOORD']), $data['TELEFOON'], $data['POSTCODE'], $data['HUISNUMMER'], $data['TOEVOEGING'], $latitude, $longitude   ));
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            print_r($ex->getMessage());
+            session()->flash('message', 'Er is iets fout gegaan! Probeer het opnieuw');
+            session()->flash('alert-class', 'alert-danger');
+            return redirect()->back();
+        }
     }
 
-    // function testCoordinaat(){
-    //     $variable = app('geocoder')->geocode('Arnhemseweg 284A, 7334AA')->all();
-    //     print_r($variable[0]->getLatitude());
-    // }
+    function testCoordinaat(){
+        $variable = app('geocoder')->geocode('7334AA', 'Arnhemseweg', '284A', 'Apeldoorn')->all();
+        print_r($variable[0]->getLatitude());
+        echo "<br>";
+        print_r($variable[0]->getLongitude());
+        //print_r($variable[0]->getLongitude);
+    }
 }
