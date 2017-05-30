@@ -111,7 +111,7 @@ $('#map').click(function (event) {
         var coordinates = ol.proj.transform(coordinates, 'EPSG:3857', 'EPSG:4326');
     $.ajaxSetup({
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content');
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 
