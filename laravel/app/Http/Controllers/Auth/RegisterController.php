@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Geocoder\Laravel\Facades\Geocoder as Geocoder;
 
 class RegisterController extends Controller
 {
@@ -64,8 +65,14 @@ class RegisterController extends Controller
      */
     protected function addUser(Request $data)
     {
-         DB::select('exec spInsertUser ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',array($data['GEBRUIKERSNAAM'],
-         $data['VOORNAAM'], $data['TUSSENVOEGSEL'], $data['ACHTERNAAM'], $data['GEBOORTEDATUM'], $data['GESLACHT'], $data['MAILADRES'], bcrypt($data['WACHTWOORD']), $data['TELEFOON'], $data['POSTCODE'], $data['HUISNUMMER'], $data['TOEVOEGING']));
+        $location = app('geocoder')->geocode($data['POSTCODE'], $data['HUISNUMMER'], $data['TOEVOEGING'])->all();
+        DB::select('exec spInsertUser ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',array($data['GEBRUIKERSNAAM'],
+        $data['VOORNAAM'], $data['TUSSENVOEGSEL'], $data['ACHTERNAAM'], $data['GEBOORTEDATUM'], $data['GESLACHT'], $data['MAILADRES'], bcrypt($data['WACHTWOORD']), $data['TELEFOON'], $data['POSTCODE'], $data['HUISNUMMER'], $data['TOEVOEGING'], $location[0]->getLongitude(), $location[0]->getLatitude()));
 
     }
+
+    // function testCoordinaat(){
+    //     $variable = app('geocoder')->geocode('Arnhemseweg 284A, 7334AA')->all();
+    //     print_r($variable[0]->getLatitude());
+    // }
 }

@@ -111,7 +111,7 @@ $('#map').click(function (event) {
         var coordinates = ol.proj.transform(coordinates, 'EPSG:3857', 'EPSG:4326');
     $.ajaxSetup({
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content');
         }
     });
 
@@ -126,6 +126,33 @@ $('#map').click(function (event) {
         },
         error: function error(data) {
             if (data.status === 422) {
+                var response = JSON.parse(data.responseText);
+                alert(response['name'][0]);
+            }
+        }
+    });
+});
+
+$('#submit').click(function (event) {
+    var coordinates = geocode('Apeldoorn');
+    var coordinates = ol.proj.transform(coordinates, 'EPSG:3857', 'EPSG:4326');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content');
+        }
+    });
+
+    $.ajax({
+        type:"POST",
+        url: '/register',
+        data: { 'coordinates': coordinates },
+        dataType: 'json',
+
+        success: function success(data) {
+            alert("Coordinaten zijn bekend!");
+        },
+        error: function error(data) {
+            if(data.status === 422){
                 var response = JSON.parse(data.responseText);
                 alert(response['name'][0]);
             }
