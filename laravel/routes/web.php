@@ -10,20 +10,20 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+//
+// Route::get('/', function () {
+//     return view('pages.home');
+// });
 
-Route::get('/', function () {
-    return view('pages.home');
-});
+Route::get('/', 'MapController@showMapWithAllCoordinates');
 
-Route::get('/home', function(){
-    return view('pages.home');
-});
+Route::get('/home', 'MapController@showMapWithAllCoordinates');
 
-Route::get('/index', function(){
-    return view('pages.home');
-});
+Route::get('/index', 'MapController@showMapWithAllCoordinates');
 
-Route::group(['prefix' => 'project'/*, 'middleware' => 'auth'*/], function () {
+//Route::get('/index', 'Auth\RegisterController@testCoordinaat');
+
+Route::group(['prefix' => 'project', 'middleware' => 'auth'], function () {
     Route::get('/new', 'MapController@index');
 
     Route::post('/add', 'ProjectController@save')->name('addProject');
@@ -33,12 +33,20 @@ Route::group(['prefix' => 'project'/*, 'middleware' => 'auth'*/], function () {
     Route::get('/delete/{id}', 'ProjectController@delete');
 
     Route::get('/', 'ProjectController@index');
-    
+
     Route::get('/{id}', 'ProjectController@view');
 
+    Route::get('/bezwaar/{id}', 'ProjectController@bezwaar');
+
+    Route::post('/bezwaarsend', 'ProjectController@saveBezwaar')->name('objection');
+
     Route::post('/addInfo', 'ProjectController@addPermitInfo')->name('addPermitInfo');
-    
+
     Route::get('/{projectId}/file/{infoId}', 'ProjectController@viewInfoFile')->name('viewInfoFile');
+
+    Route::get('/bezwaar/vergunning/{vergunningsid}', 'ProjectController@bezwaarOpVergunning');
+
+
 });
 
 Route::get('/permits', 'PermitsController@index');

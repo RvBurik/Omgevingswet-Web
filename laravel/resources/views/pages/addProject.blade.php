@@ -42,14 +42,10 @@ Project Aanvragen
                         <form role="form">
                             <div class="form-group">
 
-
                                 <label></label>
                                 <a class="skiplink" href="#map">Go to map</a>
                                 <div id="map" class="map" tabindex="0" style="height: 500px; width:500px;"></div>
 
-
-
-                                <!-- <div style="height: 500px; width: 500px;">{!! Mapper::render () !!}</div> -->
                             </div>
 
                         </form>
@@ -59,7 +55,7 @@ Project Aanvragen
         </div>
     </div>
 <!-- vergunningsvenster -->
-    <div class="col-lg-12">
+    <!-- <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Bijbehorende vergunningen
@@ -88,7 +84,7 @@ Project Aanvragen
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- /.col-lg-12 -->
 </div>
 @endsection

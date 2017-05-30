@@ -15,7 +15,7 @@ class User extends Authenticatable
     public $incrementing = false;
     protected $fillable = ['VOORNAAM', 'TUSSENVOEGSEL', 'ACHTERNAAM', 'GEBOORTEDATUM', 'GESLACHT', 'MAILADRES', 'BEDRIJFSID', 'WACHTWOORD'];
     protected $hidden = ['WACHTWOORD'];
-    
+
     public function projects() {
         return $this->hasMany('App\Project', 'GEBRUIKERSNAAM');
     }
@@ -37,6 +37,9 @@ class User extends Authenticatable
         return $this->WACHTWOORD;
     }
 
+public function getUserName(){
+    return $this->GEBRUIKERSNAAM;
+}
 
 //NIET VERWIJDEREN, ALLE ONDERSTAANDE CLASSES ZIJN NODIG OM DE REMEMBER _TOKEN TE ONTWIJKEN!
     public function getRememberToken()

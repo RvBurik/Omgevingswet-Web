@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Project;
+use App\Permit;
 use App\PermitInfo;
 use Illuminate\Http\Request;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use Auth;
 use Storage;
 
@@ -19,8 +21,33 @@ class ProjectController extends Controller
         return view('pages.projects')->with(compact('projects'));
     }
 
+    function bezwaar($id){
+        $project = Project::find($id);
+        $vergunning = 0;
+        return view('pages.objection')->with(compact('vergunning', 'project'));
+    }
+
+    function bezwaarOpVergunning($vergunningsid){
+        $vergunning = Permit::find($vergunningsid);
+        $project = Project::find($vergunning->PROJECTID);
+        return view('pages.objection')->with(compact('vergunning', 'project'));
+    }
+
+    function saveBezwaar(Request $request){
+
+        DB::select('exec spMakeObjection ?, ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->PROJECTID, $request->VERGUNNINGSID, $request->input('reason')));
+
+        session()->flash('message', 'Bezwaar succesvol aangetekend!');
+        session()->flash('alert-class', 'alert-success');
+        return redirect()->back();
+    }
+
     function view($id) {
         $project = Project::find($id);
+        $coordinateX = $project->XCOORDINAAT;
+        $coordinateY = $project->YCOORDINAAT;
+
+        Mapper::map($coordinateX, $coordinateY, ['zoom' => 15]);
         return view('pages.viewProject')->with(compact('project'));
     }
 
@@ -46,8 +73,6 @@ class ProjectController extends Controller
             return redirect()->back();
 
         }
-
-
     }
 
     function delete ($id) {
@@ -75,7 +100,11 @@ class ProjectController extends Controller
             $uploadedFile = $request->file('attachmentFile');
             if (isset($uploadedFile) && $uploadedFile->isValid()) {
                 //TODO: Remove error logs when done testing.
-                $newFileLocation = $uploadedFile->storeAs($storageLocation, $permitInfo->VOLGNUMMER . '-' . $uploadedFile->getClientOriginalName());             
+                $newFileLocation = $uploadedFile->storeAs($storageLocation, $permitInfo->VOLGNUMMER . '-' . $uploadedFile->getClientOriginalName());
+                $path = $request->file('attachmentFile')->store('permitinfo/project' . $project->PROJECTID);
+                error_log('path: ' . $path);
+                error_log('asset: ' . asset($path));
+                $permitInfo->LOCATIE = $path;
             } else {
                 $fileLocation = $request->input('attachmentLocation');
                 //TODO: Check if link is valid and exists. Add http:// if needed. @
@@ -85,7 +114,7 @@ class ProjectController extends Controller
             }
             $permitInfo->LOCATIE = $newFileLocation;
             $permitInfo->save();
-            return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);   
+            return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);
         }
         return redirect('/project/' . $projectId);
     }
