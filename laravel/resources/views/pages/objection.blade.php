@@ -14,8 +14,8 @@
                     <h2>Projectinformatie</h2>
                 </div>
                 <div class="panel-body"
-                    <h3>Projecttitel</h3>
-                    <p>{{$project->WERKZAAMHEID}}</p>
+                    <h3>{{ $project->PROJECTTITEL }}</h3>
+                    <p>{{ $project->WERKZAAMHEID }}</p>
                         <p>
                             <b>Contactpersoon: </b>{{$naam[0]->fullName()}} ( {{ $userInfo[0]->GEBRUIKERSNAAM }} )
                     </p>
