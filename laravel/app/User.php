@@ -13,7 +13,7 @@ class User extends Authenticatable
     public $timestamps = false;
     protected $primaryKey = 'GEBRUIKERSNAAM';
     public $incrementing = false;
-    protected $fillable = ['VOORNAAM', 'TUSSENVOEGSEL', 'ACHTERNAAM', 'GEBOORTEDATUM', 'GESLACHT', 'MAILADRES', 'BEDRIJFSID', 'WACHTWOORD'];
+    protected $fillable = ['MAILADRES', 'WACHTWOORD'];
     protected $hidden = ['WACHTWOORD'];
 
     public function projects() {
@@ -22,14 +22,6 @@ class User extends Authenticatable
 
     public function permitInfos() {
         return $this->hasMany('App\PermitInfo', 'GEBRUIKERSNAAM');
-    }
-
-    public function fullName() {
-        $name = $this->VOORNAAM;
-        if ($this->TUSSENVOEGSEL != null)
-            $name .= ' ' . $this->TUSSENVOEGSEL;
-        $name .= ' ' . $this->ACHTERNAAM;
-        return $name;
     }
 
     public function getAuthPassword()

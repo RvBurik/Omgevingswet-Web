@@ -3,6 +3,7 @@
 @section('class', 'portfolio-page')
 
 @section('content')
+
 <div class="row">
     <div class="col-lg-12">
         @if (Auth::user() == null)
@@ -17,12 +18,8 @@
                     <h3>Projecttitel</h3>
                     <p>{{$project->WERKZAAMHEID}}</p>
                         <p>
-                        @if ($project->KVKNUMMER == null)
-                                <b>Projecteigenaar: </b>{{$project->user->fullName()}} ({{$project->user->GEBRUIKERSNAAM}})
-                        @else
-                            <b>Projecteigenaar: </b>{{$project->company->BEDRIJFSNAAM}}<br>
-                            <b>Contactpersoon: </b>{{$project->user->fullName()}} ({{$project->user->GEBRUIKERSNAAM}})
-                        @endif
+                            <b>Contactpersoon: </b>{{$naam[0]->fullName()}} ( {{ $userInfo[0]->GEBRUIKERSNAAM }} )
+
                     </p>
                     <p>Project aangemaakt op {{$project->AANGEMAAKTOP}}.</p>
                 </div>
@@ -96,7 +93,7 @@
                                     @endif
                                     <p><a href="{{$permitInfo->downloadLink()}}">Download {{$permitInfo->shortFileName()}} ({{$permitInfo->fileSizeString()}})</a></p>
                                 @endif
-                                <p><i>Toegevoegd door <b>{{$permitInfo->user->fullName()}}</b> op {{$permitInfo->DATUM}}</i></p>
+                                <p><i>Toegevoegd door <b>{{$permitInfo->GEBRUIKERSNAAM}}</b> op {{$permitInfo->DATUM}}</i></p>
                             </div>
                         </div>
                     @endforeach
@@ -118,11 +115,9 @@
                                 <div class="panel-body">
                                     <p>{{$permit->OMSCHRIJVING}}</p>
                                     <p><b>Status: </b>{{$permit->STATUS}}</p>
-                                    <!-- <br>{{$permitInfo->user->getUserName()}}</br>
-                                    <br>{{Auth::user()}}</br> -->
-                                    @if ($permit->STATUS !== 'Verlopen' && $permitInfo->user->getUserName() !== Auth::user()->GEBRUIKERSNAAM)
+
                                     <a class="btn btn-link" href="/project/bezwaar/vergunning/{{$permit->VERGUNNINGSID}}">Bezwaar maken </a>
-                                    @endif
+
                                     <p><i>
                                         Aangevraagd op: {{$permit->DATUMAANVRAAG}}
                                         @if (!empty($permit->DATUMUITGAVE))
@@ -144,4 +139,5 @@
         @endif
     </div>
 </div>
+
 @endsection

@@ -18,6 +18,10 @@ Project Aanvragen
                     <div class="col-lg-6">
                         <form role="form" action="{{ route('addProject') }}" method="post" id="newProjectForm">
                             <div class="form-group">
+                                <label>Titel het project</label>
+                                <input type="text" name="titel" id="titel" class="form-control"></input>
+                            </div>
+                            <div class="form-group">
                                 <label>Omschrijving van het project</label>
                                 <input type="text" name="desc" id="desc" class="form-control"></input>
                             </div>

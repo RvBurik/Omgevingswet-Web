@@ -10,19 +10,11 @@ class Project extends Model
     public $timestamps = false;
 
     protected $primaryKey = 'PROJECTID';
-    protected $fillable = ['KVKNUMMER', 'GEBRUIKERSNAAM', 'AANGEMAAKTOP', 'WERKZAAMHEID', 'XCOORDINAAT', 'YCOORDINAAT'];
+    protected $fillable = ['PROJECTTITEL', 'AANGEMAAKTOP', 'WERKZAAMHEID', 'XCOORDINAAT', 'YCOORDINAAT'];
 
 	public function permits() {
 		return $this->hasMany('App\Permit', 'PROJECTID');
 	}
-
-    public function user() {
-        return $this->belongsTo('App\User', 'GEBRUIKERSNAAM');
-    }
-
-    public function company() {
-        return $this->belongsTo('App\Company', 'KVKNUMMER');
-    }
 
     public function permitInfos() {
         return $this->hasMany('App\PermitInfo', 'PROJECTID');

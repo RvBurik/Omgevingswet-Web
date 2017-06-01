@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Project;
+use App\Projectrol_van_gebruiker;
+use App\Particulier;
 use App\Permit;
 use App\PermitInfo;
 use Illuminate\Http\Request;
@@ -17,9 +19,17 @@ class ProjectController extends Controller
 {
 
     function index() {
-        $projects = Project::where('GEBRUIKERSNAAM', Auth::user()->GEBRUIKERSNAAM)->paginate(50);
+        $projectsByUser = Projectrol_van_gebruiker::where('GEBRUIKERSNAAM', 'Ricardo');
+        $projects = Project::whereIn('PROJECTID', $projectsByUser->pluck('PROJECTID'))->paginate(50);
+
         return view('pages.projects')->with(compact('projects'));
     }
+
+    function getUserByProject($projectID){
+        $userinfo = Projectrol_van_gebruiker::where('PROJECTID', 2)->where('ROLNAAM', 'INITIATIEFNEMER')->first();
+        return Particulier::find($userinfo->pluck('GEBRUIKERSNAAM'));
+    }
+
 
     function bezwaar($id){
         $project = Project::find($id);
@@ -44,11 +54,14 @@ class ProjectController extends Controller
 
     function view($id) {
         $project = Project::find($id);
+        $userInfo = $this->getUserByProject($id);
+        $naam = Particulier::find($userInfo[0]->pluck('GEBRUIKERSNAAM'));
+
         $coordinateX = $project->XCOORDINAAT;
         $coordinateY = $project->YCOORDINAAT;
 
         Mapper::map($coordinateX, $coordinateY, ['zoom' => 15]);
-        return view('pages.viewProject')->with(compact('project'));
+        return view('pages.viewProject')->with(compact('project', 'userInfo', 'naam'));
     }
 
     function save (Request $request) {
@@ -66,7 +79,7 @@ class ProjectController extends Controller
             return redirect()->back();
         }
         else{
-            DB::select('exec spAddProject ?, ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->input('desc'), $coordinatenXY[1], $coordinatenXY[0]));
+            DB::select('exec spAddProject ?, ?, ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->input('titel') , $request->input('desc'), $coordinatenXY[1], $coordinatenXY[0]));
 
             session()->flash('message', 'Project succesvol aangevraagd');
             session()->flash('alert-class', 'alert-success');
@@ -105,15 +118,23 @@ class ProjectController extends Controller
                 error_log('path: ' . $path);
                 error_log('asset: ' . asset($path));
                 $permitInfo->LOCATIE = $path;
-            } else {
-                $fileLocation = $request->input('attachmentLocation');
-                //TODO: Check if link is valid and exists. Add http:// if needed. @
-                $remoteFile = file_get_contents($fileLocation);
-                $newFileLocation = $storageLocation . '/' . $permitInfo->VOLGNUMMER . '-' . substr($fileLocation, strrpos($fileLocation, '/') + 1);
-                Storage::put($newFileLocation, $remoteFile);
+            } elseif ($request->input('attachmentLocation') != NULL){
+
+                if($request->input('attachmentLocation')->isValid())  {
+                    $fileLocation = $request->input('attachmentLocation');
+                    //TODO: Check if link is valid and exists. Add http:// if needed. @
+                    $remoteFile = file_get_contents($fileLocation);
+                    $newFileLocation = $storageLocation . '/' . $permitInfo->VOLGNUMMER . '-' . substr($fileLocation, strrpos($fileLocation, '/') + 1);
+                    Storage::put($newFileLocation, $remoteFile);
+
+                    $permitInfo->LOCATIE = $newFileLocation;
+                    $permitInfo->save();
+                }
             }
-            $permitInfo->LOCATIE = $newFileLocation;
-            $permitInfo->save();
+            else{
+                $permitInfo->save();
+            }
+
             return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);
         }
         return redirect('/project/' . $projectId);
