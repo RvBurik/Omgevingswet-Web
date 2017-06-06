@@ -16,9 +16,17 @@
                         @foreach($allProjects as $project)
                             <hr>
                             <div>
-                                <!-- Hier moet een form komen voor het abonneren -->
-                                <h3><a href="/project/{{$project->PROJECTID}}">Project #{{$project->PROJECTID}} - {{$project->WERKZAAMHEID}}</a></h3>
+                                <h3>Project #{{$project->PROJECTID}} - {{$project->PROJECTTITEL}}</h3>
+                                <h4>{{ $project->WERKZAAMHEID }}
                                 <h5>Aangevraagd op {{ $project->AANGEMAAKTOP }}</h5>
+                                <h5>Coördinator: {{ $project->GEBRUIKERSNAAM }}</h5>
+
+                                <form class="form-horizontal" role="form" method="POST" action="{{ route('subscription') }}">
+                                    {{ csrf_field() }}
+                                    <input id="PROJECTID" type="hidden" class="form-control" name="PROJECTID" value="{{ $project->PROJECTID }}" required>
+                                  <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Terug</button> -->
+                                    <button type="submit" class="btn btn-primary">Abonneren</button>
+                                </form>
                             </div>
                         @endforeach
 

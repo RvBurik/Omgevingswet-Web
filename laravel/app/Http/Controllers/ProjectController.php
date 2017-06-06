@@ -26,10 +26,15 @@ class ProjectController extends Controller
     }
 
     function viewAllProjects(){
-        $allProjects = Project::all();
-        $allRoles = Projectrol_van_gebruiker::all();
-        return view('pages.overview')->with(compact('allProjects', '$allRoles'));
+        $allProjects = DB::table('Project')->join('Projectrol_van_gebruiker', 'Project.PROJECTID', '=', 'Projectrol_van_gebruiker.PROJECTID')->where('ROLNAAM', 'GEMEENTE')->get();
+        return view('pages.overview')->with(compact('allProjects'));
+    }
 
+    function askSubscription(Request $request){
+        DB::select('exec spAddUserToProject ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->PROJECTID, 'BELANGHEBBENDE'));
+        session()->flash('message', 'Uw abonnement is aangevraagd!');
+        session()->flash('alert-class', 'alert-success');
+        return redirect()->back();
     }
 
 

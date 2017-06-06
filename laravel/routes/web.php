@@ -46,7 +46,7 @@ Route::group(['prefix' => 'project', 'middleware' => 'auth'], function () {
 
     Route::get('/bezwaar/vergunning/{vergunningsid}', 'ProjectController@bezwaarOpVergunning');
 
-
+    Route::post('/asksubscription', 'ProjectController@askSubscription')->name('subscription');
 });
 Route::get('/allprojects', 'ProjectController@viewAllProjects');
 
