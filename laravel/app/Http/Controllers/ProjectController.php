@@ -31,10 +31,18 @@ class ProjectController extends Controller
     }
 
     function askSubscription(Request $request){
-        DB::select('exec spAddUserToProject ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->PROJECTID, 'BELANGHEBBENDE'));
-        session()->flash('message', 'Uw abonnement is aangevraagd!');
-        session()->flash('alert-class', 'alert-success');
-        return redirect()->back();
+        try {
+            DB::select('exec spAddUserToProject ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->PROJECTID, 'BELANGHEBBENDE'));
+            session()->flash('message', 'Uw abonnement is aangevraagd!');
+            session()->flash('alert-class', 'alert-success');
+            return redirect()->back();
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            print_r($ex->getMessage());
+            session()->flash('message', 'Er is iets fout gegaan!');
+            session()->flash('alert-class', 'alert-danger');
+            return redirect()->back();
+        }
     }
 
 
