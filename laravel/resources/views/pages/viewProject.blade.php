@@ -18,7 +18,7 @@
                     <h3>P{{$project->PROJECTTITEL}}</h3>
                     <p>{{$project->WERKZAAMHEID}}</p>
                         <p>
-                            <b>Contactpersoon: </b>{{$naam[0]->fullName()}} ( {{ $userInfo[0]->GEBRUIKERSNAAM }} )
+                            <b>Contactpersoon: </b>{{$particulier->fullName()}} ( {{ $particulier->GEBRUIKERSNAAM }} )
 
                     </p>
                     <p>Project aangemaakt op {{$project->AANGEMAAKTOP}}.</p>

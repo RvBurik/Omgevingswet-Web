@@ -20,10 +20,19 @@ class Project extends Model
         return $this->hasMany('App\PermitInfo', 'PROJECTID');
     }
 
+    public function projectRoles() {
+        return $this->hasMany('App\Projectrol_van_gebruiker', 'PROJECTID');
+    }
+
     public function isVisibleToUser(User $user) {
         //TODO: Deze wordt ook beschikbaar voor gebruikers die in de buurt wonen.
         //return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
         return true;
+    }
+
+    public function getCreator(){
+        $creatorRole = $this->projectRoles->where('ROLNAAM', 'INITIATIEFNEMER')->first();
+        return $creatorRole->user;
     }
 
     public function mayUserEdit(User $user) {

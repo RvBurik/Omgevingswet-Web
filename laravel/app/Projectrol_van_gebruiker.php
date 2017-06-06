@@ -13,4 +13,12 @@ class Projectrol_van_gebruiker extends Model
 
     protected $primaryKey = ['GEBRUIKERSNAAM', 'PROJECTID'];
     protected $fillable = ['DATUMAANVRAAG', 'DATUMUITGAVE', 'AUTOMATISCHTOEGEVOEGD'];
+
+    public function project() {
+		return $this->belongsTo('App\Project', 'PROJECTID');
+	}
+
+    public function user() {
+		return $this->belongsTo('App\User', 'GEBRUIKERSNAAM');
+	}
 }

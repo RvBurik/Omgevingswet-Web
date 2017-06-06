@@ -25,43 +25,56 @@ class ProjectController extends Controller
         return view('pages.projects')->with(compact('projects'));
     }
 
-    function getUserByProject($projectID){
-        $userinfo = Projectrol_van_gebruiker::where('PROJECTID', 2)->where('ROLNAAM', 'INITIATIEFNEMER')->first();
-        return Particulier::find($userinfo->pluck('GEBRUIKERSNAAM'));
-    }
-
 
     function bezwaar($id){
         $project = Project::find($id);
         $vergunning = 0;
-        return view('pages.objection')->with(compact('vergunning', 'project'));
+
+        $userInfo = $project->getCreator();
+        $particulier = Particulier::where('GEBRUIKERSNAAM', $userInfo->GEBRUIKERSNAAM)->firstOrFail();
+
+        return view('pages.objection')->with(compact('vergunning', 'userInfo', 'particulier', 'project'));
     }
 
     function bezwaarOpVergunning($vergunningsid){
         $vergunning = Permit::find($vergunningsid);
         $project = Project::find($vergunning->PROJECTID);
-        return view('pages.objection')->with(compact('vergunning', 'project'));
-    }
+
+        $userInfo = $project->getCreator();
+        $particulier = Particulier::where('GEBRUIKERSNAAM', $userInfo->GEBRUIKERSNAAM)->firstOrFail();
+        Project::where('PROJECTID', $project->PROJECTID)->firstOrFail();
+
+        return view('pages.objection')->with(compact('vergunning', 'userInfo', 'particulier', 'project'));
+
+}
 
     function saveBezwaar(Request $request){
+        $creator = Project::find($request->PROJECTID)->getCreator();
+        if($creator->GEBRUIKERSNAAM == Auth::user()->GEBRUIKERSNAAM){
+            session()->flash('message', 'U kan geen bezwaar aantekenen op uw eigen vergunning/project!');
+            session()->flash('alert-class', 'alert-danger');
+            return redirect()->back();
 
-        DB::select('exec spMakeObjection ?, ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->PROJECTID, $request->VERGUNNINGSID, $request->input('reason')));
+        } else{
 
-        session()->flash('message', 'Bezwaar succesvol aangetekend!');
-        session()->flash('alert-class', 'alert-success');
-        return redirect()->back();
+            DB::select('exec spMakeObjection ?, ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->PROJECTID, $request->VERGUNNINGSID, $request->input('reason')));
+
+            session()->flash('message', 'Bezwaar succesvol aangetekend!');
+            session()->flash('alert-class', 'alert-success');
+            return redirect()->back();
+        }
     }
 
     function view($id) {
         $project = Project::find($id);
-        $userInfo = $this->getUserByProject($id);
-        $naam = Particulier::find($userInfo[0]->pluck('GEBRUIKERSNAAM'));
+        $userInfo = $project->getCreator();
+        $particulier = Particulier::where('GEBRUIKERSNAAM', $userInfo->GEBRUIKERSNAAM)->firstOrFail();
 
         $coordinateX = $project->XCOORDINAAT;
         $coordinateY = $project->YCOORDINAAT;
 
         Mapper::map($coordinateX, $coordinateY, ['zoom' => 15]);
-        return view('pages.viewProject')->with(compact('project', 'userInfo', 'naam'));
+        return view('pages.viewProject')->with(compact('project', 'userInfo', 'particulier'));
     }
 
     function save (Request $request) {

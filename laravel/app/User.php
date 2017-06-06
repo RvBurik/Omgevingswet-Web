@@ -24,6 +24,10 @@ class User extends Authenticatable
         return $this->hasMany('App\PermitInfo', 'GEBRUIKERSNAAM');
     }
 
+    public function projectRoles() {
+        return $this->hasMany('App\Projectrol_van_gebruiker', 'GEBRUIKERSNAAM');
+    }
+
     public function getAuthPassword()
     {
         return $this->WACHTWOORD;

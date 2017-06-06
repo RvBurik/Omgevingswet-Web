@@ -9,7 +9,7 @@
             <h3>U moet ingelogd zijn om projecten te kunnen bekijken.</h3>
             <p>Klik <a href="/login">hier</a> om in te loggen.</p>
         @elseif (!empty($project) && $project->isVisibleToUser(Auth::user()))
-            <div class="panel panel-default col-lg-6">
+            <div class="panel panel-default col-lg-12">
                 <div class="panel-heading">
                     <h2>Projectinformatie</h2>
                 </div>
@@ -17,7 +17,7 @@
                     <h3>{{ $project->PROJECTTITEL }}</h3>
                     <p>{{ $project->WERKZAAMHEID }}</p>
                         <p>
-                            <b>Contactpersoon: </b>{{$naam[0]->fullName()}} ( {{ $userInfo[0]->GEBRUIKERSNAAM }} )
+                            <b>Contactpersoon: </b>{{$particulier->fullName()}}
                     </p>
                     <p>Project aangemaakt op {{$project->AANGEMAAKTOP}}.</p>
                 </div>
@@ -33,9 +33,12 @@
 
                         <div class="form-group{{ $errors->has('reason') ? ' has-error' : '' }}">
                             <label for="reason" class="col-md-12 ">Reden</label>
-
                             <div class="col-md-6">
-                                <input id="reason" type="text" class="form-control" name="reason" value="{{ old('reason') }}" required autofocus>
+
+                                <textarea rows="4" cols="100" id="reason" class="text" class="form-control" name="reason" value="{{ old('reason') }}" required></textarea>
+
+
+                                <!-- <input id="reason" type="textarea" class="form-control" name="reason" value="{{ old('reason') }}" required autofocus> -->
                                 <input id="PROJECTID" type="hidden" name="PROJECTID" value="{{$project->PROJECTID}}">
                                 @if($vergunning != NULL)
                                     <input id="VERGUNNINGSID" type="hidden" name="VERGUNNINGSID" value="{{$vergunning->VERGUNNINGSID}}">
@@ -74,9 +77,6 @@
                                 <div class="panel-body">
                                     <p>{{$permit->OMSCHRIJVING}}</p>
                                     <p><b>Status: </b>{{$permit->STATUS}}</p>
-
-                                    <a class="btn btn-link" href="/project/bezwaar/vergunning/{{$permit->VERGUNNINGSID}}">Bezwaar maken </a>
-
                                     <p><i>
                                         Aangevraagd op: {{$permit->DATUMAANVRAAG}}
                                         @if (!empty($permit->DATUMUITGAVE))
