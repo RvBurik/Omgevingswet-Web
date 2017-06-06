@@ -25,6 +25,13 @@ class ProjectController extends Controller
         return view('pages.projects')->with(compact('projects'));
     }
 
+    function viewAllProjects(){
+        $allProjects = Project::all();
+        $allRoles = Projectrol_van_gebruiker::all();
+        return view('pages.overview')->with(compact('allProjects', '$allRoles'));
+
+    }
+
 
     function bezwaar($id){
         $project = Project::find($id);

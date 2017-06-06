@@ -48,6 +48,7 @@ Route::group(['prefix' => 'project', 'middleware' => 'auth'], function () {
 
 
 });
+Route::get('/allprojects', 'ProjectController@viewAllProjects');
 
 Route::get('/permits', 'PermitsController@index');
 
