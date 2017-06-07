@@ -87,14 +87,21 @@ class ProjectController extends Controller
 
     function view($id) {
         $project = Project::find($id);
-        $userInfo = $project->getCreator();
-        $particulier = Particulier::where('GEBRUIKERSNAAM', $userInfo->GEBRUIKERSNAAM)->firstOrFail();
+        if($project != NULL){
+            $userInfo = $project->getCreator();
+            $particulier = Particulier::where('GEBRUIKERSNAAM', $userInfo->GEBRUIKERSNAAM)->firstOrFail();
 
-        $coordinateX = $project->XCOORDINAAT;
-        $coordinateY = $project->YCOORDINAAT;
+            $coordinateX = $project->XCOORDINAAT;
+            $coordinateY = $project->YCOORDINAAT;
 
-        Mapper::map($coordinateX, $coordinateY, ['zoom' => 15]);
-        return view('pages.viewProject')->with(compact('project', 'userInfo', 'particulier'));
+            Mapper::map($coordinateX, $coordinateY, ['zoom' => 15]);
+            return view('pages.viewProject')->with(compact('project', 'userInfo', 'particulier'));
+        }
+        else {
+            session()->flash('message', 'Er is iets misgegaan');
+            session()->flash('alert-class', 'alert-danger');
+            return redirect()->back();
+        }
     }
 
     function save (Request $request) {
@@ -144,16 +151,21 @@ class ProjectController extends Controller
 
             $storageLocation = 'permitinfo/project' . $project->PROJECTID;
             $uploadedFile = $request->file('attachmentFile');
+            echo $uploadedFile;
+            echo '<br>';
+            echo $uploadedFile->isValid();
             if (isset($uploadedFile) && $uploadedFile->isValid()) {
                 //TODO: Remove error logs when done testing.
+
                 $newFileLocation = $uploadedFile->storeAs($storageLocation, $permitInfo->VOLGNUMMER . '-' . $uploadedFile->getClientOriginalName());
                 $path = $request->file('attachmentFile')->store('permitinfo/project' . $project->PROJECTID);
                 error_log('path: ' . $path);
                 error_log('asset: ' . asset($path));
                 $permitInfo->LOCATIE = $path;
+
             } elseif ($request->input('attachmentLocation') != NULL){
 
-                if($request->input('attachmentLocation')->isValid())  {
+
                     $fileLocation = $request->input('attachmentLocation');
                     //TODO: Check if link is valid and exists. Add http:// if needed. @
                     $remoteFile = file_get_contents($fileLocation);
@@ -161,13 +173,10 @@ class ProjectController extends Controller
                     Storage::put($newFileLocation, $remoteFile);
 
                     $permitInfo->LOCATIE = $newFileLocation;
-                    $permitInfo->save();
-                }
-            }
-            else{
-                $permitInfo->save();
+
             }
 
+                $permitInfo->save();
             return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);
         }
         return redirect('/project/' . $projectId);
