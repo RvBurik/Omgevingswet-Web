@@ -151,9 +151,6 @@ class ProjectController extends Controller
 
             $storageLocation = 'permitinfo/project' . $project->PROJECTID;
             $uploadedFile = $request->file('attachmentFile');
-            echo $uploadedFile;
-            echo '<br>';
-            echo $uploadedFile->isValid();
             if (isset($uploadedFile) && $uploadedFile->isValid()) {
                 //TODO: Remove error logs when done testing.
 
@@ -179,6 +176,7 @@ class ProjectController extends Controller
                 $permitInfo->save();
             return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);
         }
+
         return redirect('/project/' . $projectId);
     }
 
