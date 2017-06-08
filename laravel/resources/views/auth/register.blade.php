@@ -84,7 +84,6 @@
                             <label for="GESLACHT" class="col-md-4 control-label">Geslacht</label>
 
                             <div class="col-md-6">
-                                <input id="GESLACHT" type="text" class="form-control" name="GESLACHT" value="{{ old('GESLACHT') }}" required >
                                 <select id="GESLACHT" type="text" class="form-control" name="GESLACHT" required>
                                     <option value="M">Man</option>
                                     <option value="V">Vrouw</option>
