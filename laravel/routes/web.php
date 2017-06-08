@@ -48,7 +48,7 @@ Route::group(['prefix' => 'project', 'middleware' => 'auth'], function () {
 
     Route::post('/asksubscription', 'ProjectController@askSubscription')->name('subscription');
 });
-Route::get('/allprojects', 'ProjectController@viewAllProjects', 'MapController@showMapWithAllCoordinates');
+Route::get('/allprojects', 'MapController@showMapWithAllLocationsWithInfo');
 
 Route::get('/permits', 'PermitsController@index');
 

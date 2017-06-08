@@ -45,7 +45,6 @@ class ProjectController extends Controller
         }
     }
 
-
     function bezwaar($id){
         $project = Project::find($id);
         $vergunning = 0;
@@ -76,12 +75,19 @@ class ProjectController extends Controller
             return redirect()->back();
 
         } else{
+            try{
+                DB::select('exec spMakeObjection ?, ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->PROJECTID, $request->VERGUNNINGSID, $request->input('reason')));
 
-            DB::select('exec spMakeObjection ?, ?, ?, ?', array(Auth::user()->GEBRUIKERSNAAM, $request->PROJECTID, $request->VERGUNNINGSID, $request->input('reason')));
-
-            session()->flash('message', 'Bezwaar succesvol aangetekend!');
-            session()->flash('alert-class', 'alert-success');
-            return redirect()->back();
+                session()->flash('message', 'Bezwaar succesvol aangetekend!');
+                session()->flash('alert-class', 'alert-success');
+                return redirect()->back();
+            }
+            catch(\Illuminate\Database\QueryException $ex){
+                print_r($ex->getMessage());
+                session()->flash('message', 'Er is iets fout gegaan!');
+                session()->flash('alert-class', 'alert-danger');
+                return redirect()->back();
+            }
         }
     }
 

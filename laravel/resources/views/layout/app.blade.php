@@ -21,7 +21,6 @@
     <link href="{{asset('/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('css/ol.css')}}" rel="stylesheet">
 
-
     <link rel="stylesheet" href="https://openlayers.org/en/v4.1.1/css/ol.css" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -64,7 +63,7 @@
 
     <script src="{{asset('js/app.js')}}"></script>
     <script src="{{asset('js/ol.js')}}"></script>
-    <Script src="{{asset('js/jquery_cookie.js')}}"></script>
+    <script src="{{asset('js/jquery_cookie.js')}}"></script>
 
 
     <!-- Bootstrap Core JavaScript -->

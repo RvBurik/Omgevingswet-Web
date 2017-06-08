@@ -92,6 +92,17 @@ var map = new ol.Map({
     })
 });
 
+var mapOverview = new ol.Map({
+        layers: [new ol.layer.Tile({
+            source: new ol.source.OSM()
+        })],
+        target: 'mapOverview',
+        controls: ol.control.defaults({}),
+        view: new ol.View({
+            zoom: 7
+        })
+});
+
 
 $('#zoom-out').click(function () {
     var view = map.getView();

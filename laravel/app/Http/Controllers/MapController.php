@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use DB;
 use App\Coordinates;
 use App\Project;
+use App\Projectrol_van_gebruiker;
 use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 
 use Illuminate\Http\Request;
@@ -36,16 +38,23 @@ class MapController extends Controller
         $coordinateX = 52.133517;
         $coordinateY = 5.294511;
         Mapper::map($coordinateX, $coordinateY, ['zoom' => '7'])->circle([['latitude' =>$coordinateX, 'longitude' => $coordinateY]], ['strokeColor' => '#500000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF00FF', 'radius' => 10000]);
-        $radius = 0.01;
         foreach (Project::all() as $project) {
-            if($coordinateX - $radius < $project->XCOORDINAAT){
                 Mapper::marker($project->XCOORDINAAT, $project->YCOORDINAAT, ['draggable' => false, 'eventClick' => 'window.open("/project/' . $project->PROJECTID . '");']);
-            }
         }
         return view('pages.home');
     }
 
     function showMapWithAllLocationsWithInfo(){
-        //TODO functie showMapWithAllCoordinates met een map waarbij alleen info wordt getoond.
+
+        $coordinateX = 52.133517;
+        $coordinateY = 5.294511;
+
+        $allProjects = DB::table('Project')->join('Projectrol_van_gebruiker', 'Project.PROJECTID', '=', 'Projectrol_van_gebruiker.PROJECTID')->where('ROLNAAM', 'GEMEENTE')->get();
+
+
+        foreach ($allProjects as $project) {
+            Mapper::map($project->XCOORDINAAT, $project->YCOORDINAAT, ['zoom' => '7', 'marker' => true])->informationWindow($project->XCOORDINAAT, $project->YCOORDINAAT, $project->PROJECTTITEL, ['markers' => ['animation' => 'BOUNCE']]);;
+        }
+        return view('pages.overview')->with(compact('allProjects'));
     }
 }

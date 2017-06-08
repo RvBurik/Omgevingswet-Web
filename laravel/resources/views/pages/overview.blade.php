@@ -24,7 +24,6 @@
                                 <form class="form-horizontal" role="form" method="POST" action="{{ route('subscription') }}">
                                     {{ csrf_field() }}
                                     <input id="PROJECTID" type="hidden" class="form-control" name="PROJECTID" value="{{ $project->PROJECTID }}" required>
-                                  <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Terug</button> -->
                                     <button type="submit" class="btn btn-primary">Abonneren</button>
                                 </form>
                             </div>
