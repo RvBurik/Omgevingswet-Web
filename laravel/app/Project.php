@@ -24,10 +24,13 @@ class Project extends Model
         return $this->hasMany('App\Projectrol_van_gebruiker', 'PROJECTID');
     }
 
-    public function isVisibleToUser(User $user) {
-        //TODO: Deze wordt ook beschikbaar voor gebruikers die in de buurt wonen.
-        //return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
-        return true;
+    public function isVisibleToUser($gebruikersnaam) {
+        $username = $this->projectRoles->where('GEBRUIKERSNAAM', $gebruikersnaam)->first();
+        $isVisible = false;
+        if($username != NULL){
+                $isVisible = true;
+        }
+        return $isVisible;
     }
 
     public function getCreator(){

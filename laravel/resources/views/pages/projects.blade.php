@@ -11,7 +11,6 @@
             </div>
             <div class="panel-body">
                 @if(count($projects) > 0)
-                    <h2>View all your projects</h2>
                     <div class="text-center">
                         @foreach($projects as $project)
                             <hr>
@@ -19,7 +18,7 @@
                                 <h3><a href="/project/{{$project->PROJECTID}}">Project #{{$project->PROJECTID}} - {{$project->WERKZAAMHEID}}</a> <a href="/project/delete/{{$project->PROJECTID}}"><i class="fa fa-times" aria-hidden="true"></i></a></h3>
                             </div>
                         @endforeach
-                        
+
                     </div>
                 @else
                     <h2>You don't have any projects yet</h2>

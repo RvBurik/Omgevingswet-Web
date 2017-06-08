@@ -19,7 +19,7 @@ class ProjectController extends Controller
 {
 
     function index() {
-        $projectsByUser = Projectrol_van_gebruiker::where('GEBRUIKERSNAAM', 'Ricardo');
+        $projectsByUser = Projectrol_van_gebruiker::where([['GEBRUIKERSNAAM', Auth::user()->GEBRUIKERSNAAM], ['ROLNAAM', 'INITIATIEFNEMER']]);
         $projects = Project::whereIn('PROJECTID', $projectsByUser->pluck('PROJECTID'))->paginate(50);
 
         return view('pages.projects')->with(compact('projects'));
@@ -28,6 +28,11 @@ class ProjectController extends Controller
     function viewAllProjects(){
         $allProjects = DB::table('Project')->join('Projectrol_van_gebruiker', 'Project.PROJECTID', '=', 'Projectrol_van_gebruiker.PROJECTID')->where('ROLNAAM', 'GEMEENTE')->get();
         return view('pages.overview')->with(compact('allProjects'));
+    }
+
+    function viewSubProjects(){
+        $projects = DB::table('Project')->join('Projectrol_van_gebruiker', 'Project.PROJECTID', '=', 'Projectrol_van_gebruiker.PROJECTID')->where([['GEBRUIKERSNAAM', Auth::user()->GEBRUIKERSNAAM], ['ROLNAAM', '<>', 'INITIATIEFNEMER']])->get();
+        return view('pages.projects')->with(compact('projects'));
     }
 
     function askSubscription(Request $request){
@@ -93,7 +98,7 @@ class ProjectController extends Controller
 
     function view($id) {
         $project = Project::find($id);
-        if($project != NULL){
+        if($project != NULL && $project->isVisibleToUser(Auth::user()->GEBRUIKERSNAAM) == true){
             $userInfo = $project->getCreator();
             $particulier = Particulier::where('GEBRUIKERSNAAM', $userInfo->GEBRUIKERSNAAM)->firstOrFail();
 

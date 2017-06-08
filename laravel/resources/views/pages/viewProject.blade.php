@@ -9,17 +9,16 @@
         @if (Auth::user() == null)
             <h3>U moet ingelogd zijn om projecten te kunnen bekijken.</h3>
             <p>Klik <a href="/login">hier</a> om in te loggen.</p>
-        @elseif (!empty($project) && $project->isVisibleToUser(Auth::user()))
+        @elseif (!empty($project) && $project->isVisibleToUser(Auth::user()->GEBRUIKERSNAAM) == 1)
             <div class="panel panel-default col-lg-6">
                 <div class="panel-heading">
                     <h2>Projectinformatie</h2>
                 </div>
-                <div class="panel-body"
-                    <h3>P{{$project->PROJECTTITEL}}</h3>
+                <div class="panel-body">
+                    <h3>{{$project->PROJECTTITEL}}</h3>
                     <p>{{$project->WERKZAAMHEID}}</p>
                         <p>
                             <b>Contactpersoon: </b>{{$particulier->fullName()}} ( {{ $particulier->GEBRUIKERSNAAM }} )
-
                     </p>
                     <p>Project aangemaakt op {{$project->AANGEMAAKTOP}}.</p>
                 </div>
@@ -27,13 +26,20 @@
                 <div class="panel-heading">
                     <h2>Bezwaar</h2>
                 </div>
-                <div class="panel-body">
-                    <p>Bent u het niet eens met bovenstaand project? Laat het ons weten door bezwaar te maken!</p>
-                </div>
-                <div class="form-group">
-                    <a class="btn btn-link" href="/project/bezwaar/{{$project->PROJECTID}}">Bezwaar maken </a>
 
-                </div>
+                @if ($project->getCreator()->GEBRUIKERSNAAM == Auth::user()->GEBRUIKERSNAAM)
+                    <div class="panel-body">
+                        <p>U kan geen bezwaar maken op uw eigen project!</p>
+                    </div>
+                @else
+                    <div class="panel-body">
+                        <p>Bent u het niet eens met bovenstaand project? Laat het ons weten door bezwaar te maken!</p>
+                    </div>
+                    <div class="form-group">
+                        <a class="btn btn-link" href="/project/bezwaar/{{$project->PROJECTID}}">Bezwaar maken </a>
+                    </div>
+                @endif
+
             </div>
 
             <div class="panel panel-default col-lg-5 col-md-offset-1">
@@ -115,9 +121,9 @@
                                 <div class="panel-body">
                                     <p>{{$permit->OMSCHRIJVING}}</p>
                                     <p><b>Status: </b>{{$permit->STATUS}}</p>
-
-                                    <a class="btn btn-link" href="/project/bezwaar/vergunning/{{$permit->VERGUNNINGSID}}">Bezwaar maken </a>
-
+                                    @if($project->getCreator()->GEBRUIKERSNAAM != Auth::user()->GEBRUIKERSNAAM)
+                                        <a class="btn btn-link" href="/project/bezwaar/vergunning/{{$permit->VERGUNNINGSID}}">Bezwaar maken </a>
+                                    @endif
                                     <p><i>
                                         Aangevraagd op: {{$permit->DATUMAANVRAAG}}
                                         @if (!empty($permit->DATUMUITGAVE))

@@ -26,6 +26,10 @@ Route::get('/index', 'Auth\RegisterController@testCoordinaat');
 Route::group(['prefix' => 'project', 'middleware' => 'auth'], function () {
     Route::get('/new', 'MapController@index');
 
+    Route::get('/own', 'ProjectController@index');
+
+    Route::get('/sub', 'ProjectController@viewSubProjects');
+
     Route::post('/add', 'ProjectController@save')->name('addProject');
 
     Route::post('/coordinates', 'MapController@coordinatesSaved');
