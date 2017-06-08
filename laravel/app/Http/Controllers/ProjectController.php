@@ -163,19 +163,15 @@ class ProjectController extends Controller
             $storageLocation = 'permitinfo/project' . $project->PROJECTID;
             $uploadedFile = $request->file('attachmentFile');
             if (isset($uploadedFile) && $uploadedFile->isValid()) {
-                //TODO: Remove error logs when done testing.
 
                 $newFileLocation = $uploadedFile->storeAs($storageLocation, $permitInfo->VOLGNUMMER . '-' . $uploadedFile->getClientOriginalName());
                 $path = $request->file('attachmentFile')->store('permitinfo/project' . $project->PROJECTID);
-                error_log('path: ' . $path);
-                error_log('asset: ' . asset($path));
                 $permitInfo->LOCATIE = $path;
 
             } elseif ($request->input('attachmentLocation') != NULL){
 
 
                     $fileLocation = $request->input('attachmentLocation');
-                    //TODO: Check if link is valid and exists. Add http:// if needed. @
                     $remoteFile = file_get_contents($fileLocation);
                     $newFileLocation = $storageLocation . '/' . $permitInfo->VOLGNUMMER . '-' . substr($fileLocation, strrpos($fileLocation, '/') + 1);
                     Storage::put($newFileLocation, $remoteFile);
@@ -195,7 +191,6 @@ class ProjectController extends Controller
         $project = Project::where('PROJECTID', $projectId)->firstOrFail();
         if (Auth::user() != null && $project->isVisibleToUser(Auth::user())) {
             $permitInfo = $project->permitInfos->where('VOLGNUMMER', $infoId)->first();
-            //TODO: Confirm whether this works from an external server.
             return response()->file($permitInfo->localFileLocation());
         }
         return redirect('/project/' . $projectId);

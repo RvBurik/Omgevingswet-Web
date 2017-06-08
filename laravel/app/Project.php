@@ -39,12 +39,10 @@ class Project extends Model
     }
 
     public function mayUserEdit(User $user) {
-        //TODO: Deze wordt ook beschikbaar voor de projectcoordinator. (Gemeente ook?)
         return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
     }
 
     public function mayUserRemove(User $user) {
-        //TODO: DEze wordt ook beschikbaar voor de projectcoordinator? (Gemeente ook?)
         return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
     }
 

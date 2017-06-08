@@ -27,7 +27,6 @@
                     <h2>Bezwaar aantekenen</h2>
                 </div>
                 <div class="panel-body">
-                    <!-- <h3>Reden van uw bezwaar</h3> -->
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('objection') }}">
                         {{ csrf_field() }}
 
@@ -37,8 +36,6 @@
 
                                 <textarea rows="4" cols="100" id="reason" class="text" class="form-control" name="reason" value="{{ old('reason') }}" required></textarea>
 
-
-                                <!-- <input id="reason" type="textarea" class="form-control" name="reason" value="{{ old('reason') }}" required autofocus> -->
                                 <input id="PROJECTID" type="hidden" name="PROJECTID" value="{{$project->PROJECTID}}">
                                 @if($vergunning != NULL)
                                     <input id="VERGUNNINGSID" type="hidden" name="VERGUNNINGSID" value="{{$vergunning->VERGUNNINGSID}}">

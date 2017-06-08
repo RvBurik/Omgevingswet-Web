@@ -37,9 +37,9 @@ class MapController extends Controller
     function showMapWithAllCoordinates(){
         $coordinateX = 52.133517;
         $coordinateY = 5.294511;
-        Mapper::map($coordinateX, $coordinateY, ['zoom' => '7', 'marker' => false])->circle([['latitude' =>$coordinateX, 'longitude' => $coordinateY]], ['strokeColor' => '#500000', 'strokeOpacity' => 0.1, 'strokeWeight' => 2, 'fillColor' => '#FF00FF', 'radius' => 10000]);
+        Mapper::map($coordinateX, $coordinateY, ['zoom' => '7', 'marker' => false]);
         foreach (Project::all() as $project) {
-                Mapper::marker($project->XCOORDINAAT, $project->YCOORDINAAT, ['draggable' => false, 'eventClick' => 'window.open("/project/' . $project->PROJECTID . '");']);
+            Mapper::marker($project->XCOORDINAAT, $project->YCOORDINAAT, ['draggable' => false, 'eventClick' => 'window.open("/project/' . $project->PROJECTID . '");']);
         }
         return view('pages.home');
     }

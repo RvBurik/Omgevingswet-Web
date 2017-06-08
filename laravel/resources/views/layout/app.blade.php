@@ -65,13 +65,6 @@
     <script src="{{asset('js/ol.js')}}"></script>
     <script src="{{asset('js/jquery_cookie.js')}}"></script>
 
-
-    <!-- Bootstrap Core JavaScript -->
-    <!--<script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>-->
-
-    <!-- Custom Theme JavaScript -->
-    <!--<script src="{{asset('js/sb-admin-2.js')}}"></script>-->
-
     @yield('scripts')
 
 

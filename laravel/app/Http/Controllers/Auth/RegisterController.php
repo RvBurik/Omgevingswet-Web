@@ -52,7 +52,6 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'voornaam' => 'required|string|max:255',
-            // 'mailadres' => 'required|string|email|max:255|unique:gebruiker',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -71,6 +70,7 @@ class RegisterController extends Controller
             $latitude = $location[0]->getLatitude();
             DB::select('exec spInsertUser ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',array($data['GEBRUIKERSNAAM'],
             $data['VOORNAAM'], $data['TUSSENVOEGSEL'], $data['ACHTERNAAM'], $data['GEBOORTEDATUM'], $data['GESLACHT'], $data['MAILADRES'], bcrypt($data['WACHTWOORD']), $data['TELEFOON'], $data['POSTCODE'], $data['HUISNUMMER'], $data['TOEVOEGING'], $latitude, $longitude   ));
+            return view('auth.login');
         }
         catch(\Illuminate\Database\QueryException $ex){
             print_r($ex->getMessage());
@@ -78,13 +78,5 @@ class RegisterController extends Controller
             session()->flash('alert-class', 'alert-danger');
             return redirect()->back();
         }
-    }
-
-    function testCoordinaat(){
-        $variable = app('geocoder')->geocode('7334AA', 'Arnhemseweg', '284A', 'Apeldoorn')->all();
-        print_r($variable[0]->getLatitude());
-        echo "<br>";
-        print_r($variable[0]->getLongitude());
-        //print_r($variable[0]->getLongitude);
     }
 }

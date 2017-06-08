@@ -16,7 +16,6 @@ class PermitInfo extends Model
     protected $fillable = ['GEBRUIKERSNAAM', 'UITLEG', 'DATUM', 'LOCATIE'];
 
     public static function createPermitInfo($projectId, $gebruikersnaam, $uitleg) {
-        //print_r(DB::select('DECLARE @volgnummer INT; EXEC procToevoegenVergunningsinformatie ?, ?, ?, NULL, ?, @volgnummer OUTPUT; SELECT  @volgnummer;',array($projectId, $gebruiker, $uitleg, $locatie)));
         $permitInfo = new PermitInfo;
         $permitInfo->PROJECTID = $projectId;
         $permitInfo->VOLGNUMMER = PermitInfo::getNextVolgnummer($projectId);
@@ -53,7 +52,6 @@ class PermitInfo extends Model
     }
 
     public function fileSize() {
-        //TODO: Valid filesize
         if ($this->hasValidFile()) {
             return filesize($this->localFileLocation());
         }
@@ -70,7 +68,7 @@ class PermitInfo extends Model
             elseif ($fileSize < pow(1024, 3))
                 return round($fileSize / pow(1024, 2), 2) . ' mB';
             else
-                return round($fileSize / pow(1024, 3), 2) . ' gB'; 
+                return round($fileSize / pow(1024, 3), 2) . ' gB';
         }
         else
             return 'unknown';
