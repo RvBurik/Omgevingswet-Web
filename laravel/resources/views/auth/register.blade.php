@@ -67,7 +67,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('GEBOORTEDATUM') ? ' has-error' : '' }}">
-                            <label for="GEBOORTEDATUM" class="col-md-4 control-label">Geboortedatum</label>
+                            <label for="GEBOORTEDATUM" class="col-md-4 control-label">Geboortedatum (yyyy/mm/dd)</label>
 
                             <div class="col-md-6">
                                 <input id="GEBOORTEDATUM" type="date" class="form-control" name="GEBOORTEDATUM" value="{{ old('GEBOORTEDATUM') }}" required >
@@ -98,7 +98,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('MAILADRES') ? ' has-error' : '' }}">
-                            <label for="MAILADRES" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="MAILADRES" class="col-md-4 control-label">E-mail</label>
 
                             <div class="col-md-6">
                                 <input id="MAILADRES" type="email" class="form-control" name="MAILADRES" value="{{ old('MAILADRES') }}" required>
@@ -126,7 +126,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                            <label for="password-confirm" class="col-md-4 control-label">Bevestig wachtwoord</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
