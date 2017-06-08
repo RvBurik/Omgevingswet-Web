@@ -24,8 +24,8 @@ class Project extends Model
         return $this->hasMany('App\Projectrol_van_gebruiker', 'PROJECTID');
     }
 
-    public function isVisibleToUser($gebruikersnaam) {
-        $username = $this->projectRoles->where('GEBRUIKERSNAAM', $gebruikersnaam)->first();
+    public function isVisibleToUser(User $user) {
+        $username = $this->projectRoles->where('GEBRUIKERSNAAM', $user->GEBRUIKERSNAAM)->first();
         $isVisible = false;
         if($username != NULL){
                 $isVisible = true;
@@ -49,8 +49,11 @@ class Project extends Model
     }
 
     public function mayUserAddInfo(User $user) {
-        //TODO: Deze wordt ook beschikbaar voor de projectcoordinator en de bevoegde gezagen.
-        //return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
-        return true;
+        $username = $this->projectRoles->where('GEBRUIKERSNAAM', $user->GEBRUIKERSNAAM)->where('ROLNAAM', '<>', 'BELANGHEBBENDE')->first();
+        $isVisible = false;
+        if($username != NULL){
+                $isVisible = true;
+        }
+        return $isVisible;
     }
 }

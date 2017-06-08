@@ -98,7 +98,7 @@ class ProjectController extends Controller
 
     function view($id) {
         $project = Project::find($id);
-        if($project != NULL && $project->isVisibleToUser(Auth::user()->GEBRUIKERSNAAM) == true){
+        if($project != NULL && $project->isVisibleToUser(Auth::user()) == true){
             $userInfo = $project->getCreator();
             $particulier = Particulier::where('GEBRUIKERSNAAM', $userInfo->GEBRUIKERSNAAM)->firstOrFail();
 

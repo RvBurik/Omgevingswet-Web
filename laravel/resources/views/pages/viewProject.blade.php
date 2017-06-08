@@ -9,7 +9,7 @@
         @if (Auth::user() == null)
             <h3>U moet ingelogd zijn om projecten te kunnen bekijken.</h3>
             <p>Klik <a href="/login">hier</a> om in te loggen.</p>
-        @elseif (!empty($project) && $project->isVisibleToUser(Auth::user()->GEBRUIKERSNAAM) == 1)
+        @elseif (!empty($project) && $project->isVisibleToUser(Auth::user()) == 1)
             <div class="panel panel-default col-lg-6">
                 <div class="panel-heading">
                     <h2>Projectinformatie</h2>
@@ -54,12 +54,12 @@
             </div>
 
             </div>
+            @if ($project->mayUserAddInfo(Auth::user()))
             <div class="panel panel-default col-lg-12">
                 <div class="panel-heading">
                     <h2>Vergunningsinformatie</h2>
                 </div>
                 <div class="panel-body">
-                    @if ($project->mayUserAddInfo(Auth::user()))
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3>Informatiestuk toevoegen</h3>
@@ -85,6 +85,7 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
                     @endif
                     @foreach ($project->permitInfos as $permitInfo)
                         <div class="panel panel-default">
@@ -104,7 +105,7 @@
                         </div>
                     @endforeach
                 </div>
-            </div>
+
 
 
             @if (count($project->permits) > 0)
