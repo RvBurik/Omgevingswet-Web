@@ -19,7 +19,7 @@
             <ul class="dropdown-menu dropdown-user">
                 @if (Auth::guest())
                     <li><a href="/login"><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
-                    <li><a href="/register"></i>Register</a></li>
+                    <li><a href="/register"><i class="fa fa-registered fa-fw"></i>Register</a></li>
                 @else
                     <li class="dropdown">
                         <li><a href="/"> {{ Auth::user()->GEBRUIKERSNAAM }}</a></li>
