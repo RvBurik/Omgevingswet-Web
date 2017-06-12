@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Geocoder\Laravel\Facades\Geocoder as Geocoder;
 
 class RegisterController extends Controller
 {
@@ -51,7 +52,6 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'voornaam' => 'required|string|max:255',
-            // 'mailadres' => 'required|string|email|max:255|unique:gebruiker',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -64,8 +64,19 @@ class RegisterController extends Controller
      */
     protected function addUser(Request $data)
     {
-         DB::select('exec spInsertUser ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',array($data['GEBRUIKERSNAAM'],
-         $data['VOORNAAM'], $data['TUSSENVOEGSEL'], $data['ACHTERNAAM'], $data['GEBOORTEDATUM'], $data['GESLACHT'], $data['MAILADRES'], bcrypt($data['WACHTWOORD']), $data['TELEFOON'], $data['POSTCODE'], $data['HUISNUMMER'], $data['TOEVOEGING']));
-
+        try {
+            $location = app('geocoder')->geocode($data['POSTCODE'], $data['STRAAT'], $data['HUISNUMMER'], $data['TOEVOEGING'], $data['PLAATS'])->all();
+            $longitude = $location[0]->getLongitude();
+            $latitude = $location[0]->getLatitude();
+            DB::select('exec spInsertUser ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',array($data['GEBRUIKERSNAAM'],
+            $data['VOORNAAM'], $data['TUSSENVOEGSEL'], $data['ACHTERNAAM'], $data['GEBOORTEDATUM'], $data['GESLACHT'], $data['MAILADRES'], bcrypt($data['WACHTWOORD']), $data['TELEFOON'], $data['POSTCODE'], $data['HUISNUMMER'], $data['TOEVOEGING'], $latitude, $longitude   ));
+            return view('auth.login');
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            print_r($ex->getMessage());
+            session()->flash('message', 'Er is iets fout gegaan! Probeer het opnieuw');
+            session()->flash('alert-class', 'alert-danger');
+            return redirect()->back();
+        }
     }
 }

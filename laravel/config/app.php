@@ -180,6 +180,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+            Use for GeoCoder integration
+        */
+        Geocoder\Laravel\Providers\GeocoderService::class,
+
     ],
 
     /*

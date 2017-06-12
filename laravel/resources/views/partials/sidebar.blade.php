@@ -1,32 +1,22 @@
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
-            <li class="sidebar-search">
-                <div class="input-group custom-search-form">
-                    <input type="text" class="form-control" placeholder="Search...">
-                    <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </span>
-                </div>
-                <!-- /input-group -->
+            <li>
+                <a href="/home"><i class="fa fa-dashboard fa-fw"></i> Home</a>
             </li>
             <li>
-                <a href="index"><i class="fa fa-dashboard fa-fw"></i> Home</a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Abonneren</a>
+                <a href="/allprojects"><i class="fa fa-shopping-basket fa-fw"></i> Abonneren</a>
             </li>
             <li>
                 <a href="/project/new"><i class="fa fa-table fa-fw"></i> Project aanmaken</a>
             </li>
             <li>
-                <a href="/project"><i class="fa fa-edit fa-fw"></i> Projecten bekijken</a>
+                <a href="/project/own"><i class="fa fa-newspaper-o fa-fw"></i> Eigen projecten bekijken</a>
+            </li>
+            <li>
+                <a href="/project/sub"><i class="fa fa-bar-chart-o fa-fw"></i> Abonnementen bekijken</a>
             </li>
         </ul>
     </div>
-    <!-- /.sidebar-collapse -->
 </div>
-<!-- /.navbar-static-side -->
 </nav>

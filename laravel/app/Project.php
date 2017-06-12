@@ -10,29 +10,48 @@ class Project extends Model
     public $timestamps = false;
 
     protected $primaryKey = 'PROJECTID';
-    protected $fillable = ['KVKNUMMER', 'GEBRUIKERSNAAM', 'AANGEMAAKTOP', 'WERKZAAMHEID', 'XCOORDINAAT', 'YCOORDINAAT'];
+    protected $fillable = ['PROJECTTITEL', 'AANGEMAAKTOP', 'WERKZAAMHEID', 'XCOORDINAAT', 'YCOORDINAAT'];
 
 	public function permits() {
 		return $this->hasMany('App\Permit', 'PROJECTID');
 	}
 
-    public function user() {
-        return $this->belongsTo('App\User', 'GEBRUIKERSNAAM');
+    public function permitInfos() {
+        return $this->hasMany('App\PermitInfo', 'PROJECTID');
     }
 
-    public function company() {
-        return $this->belongsTo('App\Company', 'KVKNUMMER');
+    public function projectRoles() {
+        return $this->hasMany('App\Projectrol_van_gebruiker', 'PROJECTID');
     }
 
     public function isVisibleToUser(User $user) {
-        return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
+        $username = $this->projectRoles->where('GEBRUIKERSNAAM', $user->GEBRUIKERSNAAM)->first();
+        $isVisible = false;
+        if($username != NULL){
+                $isVisible = true;
+        }
+        return $isVisible;
     }
-    
+
+    public function getCreator(){
+        $creatorRole = $this->projectRoles->where('ROLNAAM', 'INITIATIEFNEMER')->first();
+        return $creatorRole->user;
+    }
+
     public function mayUserEdit(User $user) {
         return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
     }
 
     public function mayUserRemove(User $user) {
         return $this->GEBRUIKERSNAAM == $user->GEBRUIKERSNAAM;
+    }
+
+    public function mayUserAddInfo(User $user) {
+        $username = $this->projectRoles->where('GEBRUIKERSNAAM', $user->GEBRUIKERSNAAM)->where('ROLNAAM', '<>', 'BELANGHEBBENDE')->first();
+        $isVisible = false;
+        if($username != NULL){
+                $isVisible = true;
+        }
+        return $isVisible;
     }
 }

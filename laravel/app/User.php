@@ -13,19 +13,19 @@ class User extends Authenticatable
     public $timestamps = false;
     protected $primaryKey = 'GEBRUIKERSNAAM';
     public $incrementing = false;
-    protected $fillable = ['VOORNAAM', 'TUSSENVOEGSEL', 'ACHTERNAAM', 'GEBOORTEDATUM', 'GESLACHT', 'MAILADRES', 'BEDRIJFSID', 'WACHTWOORD'];
+    protected $fillable = ['MAILADRES', 'WACHTWOORD'];
     protected $hidden = ['WACHTWOORD'];
-    
+
     public function projects() {
         return $this->hasMany('App\Project', 'GEBRUIKERSNAAM');
     }
 
-    public function fullName() {
-        $name = $this->VOORNAAM;
-        if ($this->TUSSENVOEGSEL != null)
-            $name .= ' ' . $this->TUSSENVOEGSEL;
-        $name .= ' ' . $this->ACHTERNAAM;
-        return $name;
+    public function permitInfos() {
+        return $this->hasMany('App\PermitInfo', 'GEBRUIKERSNAAM');
+    }
+
+    public function projectRoles() {
+        return $this->hasMany('App\Projectrol_van_gebruiker', 'GEBRUIKERSNAAM');
     }
 
     public function getAuthPassword()
@@ -33,6 +33,9 @@ class User extends Authenticatable
         return $this->WACHTWOORD;
     }
 
+public function getUserName(){
+    return $this->GEBRUIKERSNAAM;
+}
 
 //NIET VERWIJDEREN, ALLE ONDERSTAANDE CLASSES ZIJN NODIG OM DE REMEMBER _TOKEN TE ONTWIJKEN!
     public function getRememberToken()

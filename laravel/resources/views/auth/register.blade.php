@@ -11,7 +11,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('GEBRUIKERSNAAM') ? ' has-error' : '' }}">
-                            <label for="GEBRUIKERSNAAM" class="col-md-4 control-label">Gebruikesnaam</label>
+                            <label for="GEBRUIKERSNAAM" class="col-md-4 control-label">Gebruikersnaam</label>
 
                             <div class="col-md-6">
                                 <input id="GEBRUIKERSNAAM" type="text" class="form-control" name="GEBRUIKERSNAAM" value="{{ old('GEBRUIKERSNAAM') }}" required autofocus>
@@ -67,7 +67,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('GEBOORTEDATUM') ? ' has-error' : '' }}">
-                            <label for="GEBOORTEDATUM" class="col-md-4 control-label">Geboortedatum</label>
+                            <label for="GEBOORTEDATUM" class="col-md-4 control-label">Geboortedatum (yyyy/mm/dd)</label>
 
                             <div class="col-md-6">
                                 <input id="GEBOORTEDATUM" type="date" class="form-control" name="GEBOORTEDATUM" value="{{ old('GEBOORTEDATUM') }}" required >
@@ -84,8 +84,11 @@
                             <label for="GESLACHT" class="col-md-4 control-label">Geslacht</label>
 
                             <div class="col-md-6">
-                                <input id="GESLACHT" type="text" class="form-control" name="GESLACHT" value="{{ old('GESLACHT') }}" required >
-
+                                <select id="GESLACHT" type="text" class="form-control" name="GESLACHT" required>
+                                    <option value="M">Man</option>
+                                    <option value="V">Vrouw</option>
+                                    <option value="O">Onzijdig</option>
+                                </select>
                                 @if ($errors->has('GESLACHT'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('GESLACHT') }}</strong>
@@ -95,7 +98,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('MAILADRES') ? ' has-error' : '' }}">
-                            <label for="MAILADRES" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="MAILADRES" class="col-md-4 control-label">E-mail</label>
 
                             <div class="col-md-6">
                                 <input id="MAILADRES" type="email" class="form-control" name="MAILADRES" value="{{ old('MAILADRES') }}" required>
@@ -123,7 +126,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                            <label for="password-confirm" class="col-md-4 control-label">Bevestig wachtwoord</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
@@ -144,15 +147,16 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('POSTCODE') ? ' has-error' : '' }}">
-                            <label for="POSTCODE" class="col-md-4 control-label">Postcode</label>
+
+                        <div class="form-group{{ $errors->has('STRAAT') ? ' has-error' : '' }}">
+                            <label for="STRAAT" class="col-md-4 control-label">Straat</label>
 
                             <div class="col-md-6">
-                                <input id="POSTCODE" type="text" class="form-control" name="POSTCODE" value="{{ old('POSTCODE') }}" required>
+                                <input id="STRAAT" type="text" class="form-control" name="STRAAT" value="{{ old('STRAAT') }}" required>
 
-                                @if ($errors->has('POSTCODE'))
+                                @if ($errors->has('STRAAT'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('POSTCODE') }}</strong>
+                                        <strong>{{ $errors->first('STRAAT') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -185,6 +189,35 @@
                                 @endif
                             </div>
                         </div>
+
+                        <div class="form-group{{ $errors->has('POSTCODE') ? ' has-error' : '' }}">
+                            <label for="POSTCODE" class="col-md-4 control-label">Postcode</label>
+
+                            <div class="col-md-6">
+                                <input id="POSTCODE" type="text" class="form-control" name="POSTCODE" value="{{ old('POSTCODE') }}" required>
+
+                                @if ($errors->has('POSTCODE'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('POSTCODE') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('PLAATS') ? ' has-error' : '' }}">
+                            <label for="PLAATS" class="col-md-4 control-label">Plaats</label>
+
+                            <div class="col-md-6">
+                                <input id="PLAATS" type="text" class="form-control" name="PLAATS" value="{{ old('PLAATS') }}" required>
+
+                                @if ($errors->has('PLAATS'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('PLAATS') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">

@@ -18,6 +18,10 @@ Project Aanvragen
                     <div class="col-lg-6">
                         <form role="form" action="{{ route('addProject') }}" method="post" id="newProjectForm">
                             <div class="form-group">
+                                <label>Titel het project</label>
+                                <input type="text" name="titel" id="titel" class="form-control"></input>
+                            </div>
+                            <div class="form-group">
                                 <label>Omschrijving van het project</label>
                                 <input type="text" name="desc" id="desc" class="form-control"></input>
                             </div>
@@ -54,38 +58,6 @@ Project Aanvragen
             </div>
         </div>
     </div>
-<!-- vergunningsvenster -->
-    <!-- <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Bijbehorende vergunningen
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <form role="form" type="post">
-                            <div class="form-group">
-                                <label></label>
-                                <input class="form-control" placeholder="Enter text">
-                            </div>
-                            <div class="form-group">
-                                <label>Omschrijving van het project</label>
-                                <textarea class="form-control" rows="5"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>File input</label>
-                                <input type="file">
-                            </div>
-
-                            <button type="submit" class="btn btn-default">Submit Button</button>
-                            <button type="reset" class="btn btn-default">Reset Button</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- /.col-lg-12 -->
 </div>
 @endsection
 

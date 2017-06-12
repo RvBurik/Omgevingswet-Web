@@ -92,6 +92,17 @@ var map = new ol.Map({
     })
 });
 
+var mapOverview = new ol.Map({
+        layers: [new ol.layer.Tile({
+            source: new ol.source.OSM()
+        })],
+        target: 'mapOverview',
+        controls: ol.control.defaults({}),
+        view: new ol.View({
+            zoom: 7
+        })
+});
+
 
 $('#zoom-out').click(function () {
     var view = map.getView();
@@ -106,7 +117,7 @@ $('#zoom-in').click(function () {
 });
 
 $('#map').click(function (event) {
-    alert(map.getEventCoordinate(event));
+    // alert(map.getEventCoordinate(event));
     var coordinates = map.getEventCoordinate(event);
         var coordinates = ol.proj.transform(coordinates, 'EPSG:3857', 'EPSG:4326');
     $.ajaxSetup({
@@ -132,6 +143,7 @@ $('#map').click(function (event) {
         }
     });
 });
+
 
 /***/ })
 

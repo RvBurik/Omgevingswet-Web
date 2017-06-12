@@ -133,7 +133,7 @@ return array(
     | Set the default Googlmapper displayed map type. (ROADMAP|SATELLITE|HYBRID|TERRAIN)
     |
     */
-    'type' => 'SATELLITE',
+    'type' => 'ROADMAP',
 
     /*
     |--------------------------------------------------------------------------
@@ -173,7 +173,7 @@ return array(
         | Display an animation effect for markers. (NONE|DROP|BOUNCE)
         |
         */
-        'animation' => 'NONE',
+        'animation' => 'DROP',
 
     ),
 
@@ -185,7 +185,7 @@ return array(
     | Enable default Googlmapper map marker cluster.
     |
     */
-    'cluster' => true,
+    'cluster' => false,
 
     /*
     |--------------------------------------------------------------------------
