@@ -153,38 +153,46 @@ class ProjectController extends Controller
     }
 
     function addPermitInfo(Request $request) {
-        $projectId = $request->input('project');
-        $project = Project::where('PROJECTID', $projectId)->firstOrFail();
-        if (Auth::user() != null && $project->mayUserAddInfo(Auth::user())) {
-            $gebruiker = $request->input('gebruiker');
-            $uitleg = $request->input('description');
-            $permitInfo = PermitInfo::createPermitInfo($projectId, Auth::user()->GEBRUIKERSNAAM, $request->input('description'));
+        try{
+            $projectId = $request->input('project');
+            $project = Project::where('PROJECTID', $projectId)->firstOrFail();
+            if (Auth::user() != null && $project->mayUserAddInfo(Auth::user())) {
+                $gebruiker = $request->input('gebruiker');
+                $uitleg = $request->input('description');
+                $permitInfo = PermitInfo::createPermitInfo($projectId, Auth::user()->GEBRUIKERSNAAM, $request->input('description'));
 
-            $storageLocation = 'permitinfo/project' . $project->PROJECTID;
-            $uploadedFile = $request->file('attachmentFile');
-            if (isset($uploadedFile) && $uploadedFile->isValid()) {
+                $storageLocation = 'permitinfo/project' . $project->PROJECTID;
+                $uploadedFile = $request->file('attachmentFile');
+                if (isset($uploadedFile) && $uploadedFile->isValid()) {
 
-                $newFileLocation = $uploadedFile->storeAs($storageLocation, $permitInfo->VOLGNUMMER . '-' . $uploadedFile->getClientOriginalName());
-                $path = $request->file('attachmentFile')->store('permitinfo/project' . $project->PROJECTID);
-                $permitInfo->LOCATIE = $path;
+                    $newFileLocation = $uploadedFile->storeAs($storageLocation, $permitInfo->VOLGNUMMER . '-' . $uploadedFile->getClientOriginalName());
+                    $path = $request->file('attachmentFile')->store('permitinfo/project' . $project->PROJECTID);
+                    $permitInfo->LOCATIE = $path;
 
-            } elseif ($request->input('attachmentLocation') != NULL){
+                } elseif ($request->input('attachmentLocation') != NULL){
 
 
-                    $fileLocation = $request->input('attachmentLocation');
-                    $remoteFile = file_get_contents($fileLocation);
-                    $newFileLocation = $storageLocation . '/' . $permitInfo->VOLGNUMMER . '-' . substr($fileLocation, strrpos($fileLocation, '/') + 1);
-                    Storage::put($newFileLocation, $remoteFile);
+                        $fileLocation = $request->input('attachmentLocation');
+                        $remoteFile = file_get_contents($fileLocation);
+                        $newFileLocation = $storageLocation . '/' . $permitInfo->VOLGNUMMER . '-' . substr($fileLocation, strrpos($fileLocation, '/') + 1);
+                        Storage::put($newFileLocation, $remoteFile);
 
-                    $permitInfo->LOCATIE = $newFileLocation;
+                        $permitInfo->LOCATIE = $newFileLocation;
 
+                }
+
+                    $permitInfo->save();
+                return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);
             }
 
-                $permitInfo->save();
-            return redirect('/project/' . $projectId . "#permit-info-" . $permitInfo->VOLGNUMMER);
+            return redirect('/project/' . $projectId);
         }
-
-        return redirect('/project/' . $projectId);
+        catch(\Illuminate\Database\QueryException $ex){
+            print_r($ex->getMessage());
+            session()->flash('message', 'Er is iets fout gegaan!');
+            session()->flash('alert-class', 'alert-danger');
+            return redirect()->back();
+        }
     }
 
     function viewInfoFile($projectId, $infoId) {
