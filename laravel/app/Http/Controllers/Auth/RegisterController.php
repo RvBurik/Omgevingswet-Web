@@ -74,7 +74,7 @@ class RegisterController extends Controller
         }
         catch(\Illuminate\Database\QueryException $ex){
             print_r($ex->getMessage());
-            session()->flash('message', 'Er is iets fout gegaan! Probeer het opnieuw');
+            session()->flash('message', $ex->getMessage());
             session()->flash('alert-class', 'alert-danger');
             return redirect()->back();
         }
