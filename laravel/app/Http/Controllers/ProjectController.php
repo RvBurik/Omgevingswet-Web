@@ -89,7 +89,7 @@ class ProjectController extends Controller
             }
             catch(\Illuminate\Database\QueryException $ex){
                 print_r($ex->getMessage());
-                session()->flash('message', $ex->getMessage());
+                session()->flash('message', 'Oeps, er is iets fout gegaan!');
                 session()->flash('alert-class', 'alert-danger');
                 return redirect()->back();
             }
