@@ -49,10 +49,10 @@ class MapController extends Controller
         $coordinateY = 5.294511;
 
         $allProjects = DB::table('Project')->join('Projectrol_van_gebruiker', 'Project.PROJECTID', '=', 'Projectrol_van_gebruiker.PROJECTID')->where('ROLNAAM', 'GEMEENTE')->get();
-
+        Mapper::map($coordinateX, $coordinateY, ['zoom' => '7', 'marker' => false]);
 
         foreach ($allProjects as $project) {
-            Mapper::map($project->XCOORDINAAT, $project->YCOORDINAAT, ['zoom' => '7', 'marker' => true])->informationWindow($project->XCOORDINAAT, $project->YCOORDINAAT, $project->PROJECTTITEL, ['markers' => ['animation' => 'BOUNCE']]);;
+            Mapper::marker($project->XCOORDINAAT, $project->YCOORDINAAT, ['zoom' => '7', 'marker' => true])->informationWindow($project->XCOORDINAAT, $project->YCOORDINAAT, $project->PROJECTTITEL, ['markers' => ['animation' => 'BOUNCE']]);;
         }
         return view('pages.overview')->with(compact('allProjects'));
     }

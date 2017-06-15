@@ -1,40 +1,36 @@
 # Omgevingswet-Web
 Webapplicatie betreft de opdracht Omgevingswet
 
-Push nooit van je local branch naar de master branch, je commits worden gerevert. 
-Altijd minimaal 2 reviewers op elke push naar development.
-Commit local bij elke toegevoegde functionaliteit, commit naar development als alle functionaliteiten voltooid en getest zijn. 
-Development branch mag nooit gebroken worden. 
-Aan het eind van elke iteratie wordt development overgebracht naar de master.
+## Ontwikkelaars
+* Michiel Bos
+* Ricardo van Burik
+* Johan Heij
+* Duncan Luiten
+* Tristan de Roo
 
-BELANGRIJK:
-Nadat git push naar development is uitgevoerd, moet je ZELF een pull request aanmaken in Github. Als je dit niet doet zijn je commits nog niet final en zijn ze ook niet beschikbaar voor je teamgenoten.
+## Vereisten
 
-****COMMANDS****
+Om het project uit te voeren of te bouwen zijn er enkele tools nodig. Deze tools staan hieronder genoteerd:
 
-Clone repos:
-git clone <clone link ssh(te vinden in Github)>
+* PHP version 7.0.*
+* SQLSRV driver 4.0
+* SQLSRV ODBC Driver version 11
+* Laravel
 
-Bekijk status:
-git status (toont welke files gewijzigd zijn)
+## Laravel
+Laravel maakt gebruik van Composer, installeer deze via `composer global require "laravel/installer`
+Voor meer informatie over het installeren van Laravel: `https://laravel.com/docs/5.4/installation`
 
-Bekijk huidige branches:
-git branch
+## Installatie
+Kloon het project via de volgende url `https://github.com/RvBurik/Omgevingswet-Web`
+Zorg dat binnen `php.ini`de volgende extensions beschikbaar zijn:
+* extension=openssl.dll
+* extension=curl.dll
+* extension=php_mbstring.dll
 
-Maak een nieuwe local branch:
-git checkout -b <naam van de branch>
+Wanneer het project gekloond is, ga in de command line naar de folder waar het project in staat. 
+Binnen de map redirect naar `Laravel`, om vervolgens `php artisan key:generate` uit te voeren voor een nieuwe application key.
+Om het project lokaal te runnen voer`php artisan serve` uit. De webapplicatie is te vinden in je browser op `127.0.0.1:8000` of `localhost:8000`.
 
-Voeg bestanden toe aan een (toekomstige commit):
-git add <naam van je bestand> OF git add . (voegt alle bestanden toe)
-
-Maak een nieuwe commit (bij elke functionaliteit)
-git commit -m '<Leg uit wat je hebt gedaan>'
-
-Pushen naar een branch
-git push origin <naam van branch> 
-
-Op het moment dat teamleden nieuwe branch hebben aangemaakt:
-git fetch (haalt nieuwe branches op)
-
-Haal wijzigingen van remote branches op:
-git pull origin <naam van de branch>
+## Database Config
+Binnen het Laravel project, rename het `.env.example` naar `.env`. Hierin worden je database credentials opgeslagen, `.env` is opgenomen in de `.gitignore`. 
